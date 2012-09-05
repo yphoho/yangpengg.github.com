@@ -1,24 +1,95 @@
-<?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[yangpeng's Blog]]></title>
-  <link href="http://yangpengg.github.com/atom.xml" rel="self"/>
-  <link href="http://yangpengg.github.com/"/>
-  <updated>2012-09-05T18:07:08+08:00</updated>
-  <id>http://yangpengg.github.com/</id>
-  <author>
-    <name><![CDATA[yp]]></name>
-    
-  </author>
-  <generator uri="http://octopress.org/">Octopress</generator>
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Minhash and LSH - yangpeng's Blog</title>
+  <meta name="author" content="yp">
 
   
-  <entry>
-    <title type="html"><![CDATA[Minhash and LSH]]></title>
-    <link href="http://yangpengg.github.com/blog/2012/09/05/minhash-and-lsh/"/>
-    <updated>2012-09-05T09:05:00+08:00</updated>
-    <id>http://yangpengg.github.com/blog/2012/09/05/minhash-and-lsh</id>
-    <content type="html"><![CDATA[<p>本文主要参考<a href="http://i.stanford.edu/~ullman/mmds.html">Mining of Massive Datasets</a>中第三章相关内容。</p>
+  <meta name="description" content="本文主要参考Mining of Massive Datasets中第三章相关内容。 Jaccard Similarity 在推荐系统经常要做相似度计算，其中比较简单的一种是Jaccard Similarity。Jaccard Similarity描述如下：
+设A,B为两个特征向量， &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://yangpengg.github.com/blog/2012/09/05/minhash-and-lsh/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="yangpeng's Blog" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">yangpeng's Blog</a></h1>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:yangpengg.github.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Minhash and LSH</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-09-05T09:05:00+08:00" pubdate data-updated="true">Sep 5<span>th</span>, 2012</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>本文主要参考<a href="http://i.stanford.edu/~ullman/mmds.html">Mining of Massive Datasets</a>中第三章相关内容。</p>
 
 <h1>Jaccard Similarity</h1>
 
@@ -39,7 +110,7 @@
 
 <p>如S1 = {a, d}, S2 = {c}, S3 = {b, d, e}, S4 = {a, c, d}，则表示为矩阵：</p>
 
-<p><img src="http://yangpengg.github.com/images/blogpng/matrix-representation.png" alt="Matrix Representation" /></p>
+<p><img src="/images/blogpng/matrix-representation.png" alt="Matrix Representation" /></p>
 
 <p>以电商为例，这个矩阵可以解释为：用户S1购买过a,d两个商品，S2购买过c，S3购买过b,d,e，&#8230;</p>
 
@@ -49,7 +120,7 @@
 
 <p>取Element的一个全排列，以beadc为例，这个排列定义了一个hash函数，这个函数的矩阵可以表示：</p>
 
-<p><img src="http://yangpengg.github.com/images/blogpng/permutation.png" alt="a permutation" /></p>
+<p><img src="/images/blogpng/permutation.png" alt="a permutation" /></p>
 
 <p>根据这个hash函数，每个特征向量的minhash值定义为：第一个value不为0的Element的值。</p>
 
@@ -66,7 +137,7 @@ h(S1) = a, h(S2) = c, h(S3) = b, h(S4) = a</p>
 
 <p>如果以h1,h2,&#8230;,hn表示n个随机hash函数，r表示原矩阵的行数，SIG(i, c)表示为新生成矩阵第i个hash函数(也就是第i行)，第c列的元素。首先设所有SIG中的元素为MAXINT，然后对每一行r作如想处理：</p>
 
-<p><img src="http://yangpengg.github.com/images/blogpng/algo-minhash.png" alt="algo minhash" /></p>
+<p><img src="/images/blogpng/algo-minhash.png" alt="algo minhash" /></p>
 
 <p>Minhash的python实现：</p>
 
@@ -185,29 +256,129 @@ h(S1) = a, h(S2) = c, h(S3) = b, h(S4) = a</p>
 <p>假设向量的维度为n，将n维分为b份，称为bands，每份为n/b维。同时存在b个hash函数，每个bands对应一个hash函数，每个hash函数接受n/b个参数，产生一个数值，把相同数值分为一组。</p>
 
 <p>对每个binds中的n/b维特征向量进行hash计算，比如对于{S1, S2, S3, S4}，3个binds而言，每一个binds可能产生的数据为{S1, S2},{S3},{S4}，每二个binds为{S1},{S2, Ss4},{S3}，每三个binds为{S1, S3},{S2, S4}。则为了计算得到和S1最相似的n个，则只需要计算J(S1, S2), J(S1, S3)，这样达到了减少了计算的目的。</p>
-]]></content>
-  </entry>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
   
-  <entry>
-    <title type="html"><![CDATA[Octopress Setup]]></title>
-    <link href="http://yangpengg.github.com/blog/2012/08/21/octopress-setup/"/>
-    <updated>2012-08-21T16:02:00+08:00</updated>
-    <id>http://yangpengg.github.com/blog/2012/08/21/octopress-setup</id>
-    <content type="html"><![CDATA[<p>本来没有写过blog，4月份弄了个vps，顺便在上边搭了个wordpress，原打算是要写些技术类的文章，但是一直也没有这个习惯，所以到现在那上边也只有一篇。现在想把blog放到github上，正好也改用Octopress。</p>
 
-<p>Octopress部署起来也没有什么麻烦，只是有一点要注意，想在github上搭User Page，Repository name必须是username.github.com，比如我的用户名是yangpengg，repository就只能是yangpengg.github.com，其它的都不能正常部署。</p>
+<span class="byline author vcard">Posted by <span class="fn">yp</span></span>
 
-<p>主要参考以下内容：</p>
-
-<ul>
-<li><p><a href="http://octopress.org/docs/">Octopress Documentation</a></p></li>
-<li><p><a href="http://code.dblock.org/octopress-setting-up-a-blog-and-contributing-to-an-existing-one">Octopress: Setting up a Blog and Contributing to an Existing One</a></p></li>
-<li><p><a href="https://github.com/echen/echen.github.com/blob/source/_config.yml">echen&#8217;s _config.yml</a></p></li>
-</ul>
+      
 
 
-<p>还是想写点技术文章。</p>
-]]></content>
-  </entry>
+
+
+
+
+
+
   
-</feed>
+
+
+<time datetime="2012-09-05T09:05:00+08:00" pubdate data-updated="true">Sep 5<span>th</span>, 2012</time>
+      
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://yangpengg.github.com/blog/2012/09/05/minhash-and-lsh/" data-via="yangpengg" data-counturl="http://yangpengg.github.com/blog/2012/09/05/minhash-and-lsh/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2012/08/21/octopress-setup/" title="Previous Post: Octopress Setup">&laquo; Octopress Setup</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Yang Peng</h1>
+  
+  <p>I like machine learning, recommender system and nlp.</p>
+
+  <p>Email: hermitinhistory[at]gmail.com<br/>
+  Twitter: <a href="https://twitter.com/#!/yangpengg">@yangpengg</a><br/>
+</section>
+<section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2012/09/05/minhash-and-lsh/">Minhash and LSH</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/08/21/octopress-setup/">Octopress Setup</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>Latest Tweets</h1>
+  <ul id="tweets">
+    <li class="loading">Status updating...</li>
+  </ul>
+  <script type="text/javascript">
+    $.domReady(function(){
+      getTwitterFeed("yangpengg", 4, false);
+    });
+  </script>
+  <script src="/javascripts/twitter.js" type="text/javascript"> </script>
+  
+    <a href="http://twitter.com/yangpengg" class="twitter-follow-button" data-show-count="true">Follow @yangpengg</a>
+  
+</section>
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2012 - yp -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

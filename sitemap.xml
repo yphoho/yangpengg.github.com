@@ -2,14 +2,18 @@
 <urlset xmlns='http://www.sitemaps.org/schemas/sitemap/0.9'>
     <url>
         <loc>http://yangpengg.github.com/blog/2012/08/21/octopress-setup/</loc>
-        <lastmod>2012-08-21T16:40:08+08:00</lastmod>
+        <lastmod>2012-09-05T09:17:02+08:00</lastmod>
+    </url>
+    <url>
+        <loc>http://yangpengg.github.com/blog/2012/09/05/minhash-and-lsh/</loc>
+        <lastmod>2012-09-05T18:05:08+08:00</lastmod>
     </url>
     <url>
         <loc>http://yangpengg.github.com/</loc>
-        <lastmod>2012-08-21T16:40:08+08:00</lastmod>
+        <lastmod>2012-09-05T18:05:08+08:00</lastmod>
     </url>
     <url>
         <loc>http://yangpengg.github.com/blog/archives/</loc>
-        <lastmod>2012-08-21T16:40:08+08:00</lastmod>
+        <lastmod>2012-09-05T18:05:08+08:00</lastmod>
     </url>
 </urlset>

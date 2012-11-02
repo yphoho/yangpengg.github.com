@@ -3,7 +3,7 @@ layout: post
 title: "Minhash and LSH"
 date: 2012-09-05 09:05
 comments: true
-categories: 
+categories: [Algorithm, Recommender System]
 ---
 
 本文主要参考[Mining of Massive Datasets](http://i.stanford.edu/~ullman/mmds.html)中第三章相关内容。
@@ -66,6 +66,7 @@ def minhash(data, hashfuncs):
     '''
         see mining-of-massive-datasets.pdf ch3 minhash for detail
     '''
+
     # DEBUG = True
     DEBUG = False
 
@@ -82,13 +83,14 @@ def minhash(data, hashfuncs):
         if DEBUG: print hashvalue
         for c in range(cols):
             if DEBUG: print '-' * 2, r, c
-            if data[r][c] == 0: continue
+            if data[r][c] == 0:
+                continue
             for i in range(sigrows):
                 if DEBUG: print '-' * 4, i, sigmatrix[i][c], hashvalue[i]
                 if sigmatrix[i][c] > hashvalue[i]:
                     sigmatrix[i][c] = hashvalue[i]
                 if DEBUG: print '-' * 4, sigmatrix
-                
+
         if DEBUG:
             for xxxxxxx in sigmatrix:
                 print xxxxxxx
@@ -104,11 +106,11 @@ if __name__ == '__main__':
     def hash2(x):
         return (3 * x + 1) % 5
 
-    data = [[1,0,0,1],
-            [0,0,1,0],
-            [0,1,0,1],
-            [1,0,1,1],
-            [0,0,1,0]]
+    data = [[1, 0, 0, 1],
+            [0, 0, 1, 0],
+            [0, 1, 0, 1],
+            [1, 0, 1, 1],
+            [0, 0, 1, 0]]
 
     print minhash(data, [hash1, hash2])
 ```
@@ -117,8 +119,8 @@ if __name__ == '__main__':
 
 在推荐系统中，通常需要的是与S1 n个最相似的，而不是所有的。[Locality-Sensitive Hashing](http://en.wikipedia.org/wiki/Locality_sensitive_hashing)的提出就是为了过滤明显不相似的，以此来减少计算。
 
-假设向量的维度为n，将n维分为b份，称为bands，每份为n/b维。同时存在b个hash函数，每个bands对应一个hash函数，每个hash函数接受n/b个参数，产生一个数值，把相同数值分为一组。
+假设向量的维度为n，将n维分为b份，称为bands，每份为n/b维。同时存在b个hash函数，每个bands对应一个hash函数，每个hash函数接受n/b个参数，产生一个数值，把相同数值的元素分为一组。
 
-对每个binds中的n/b维特征向量进行hash计算，比如对于{S1, S2, S3, S4}，3个binds而言，每一个binds可能产生的数据为{S1, S2},{S3},{S4}，每二个binds为{S1},{S2, Ss4},{S3}，每三个binds为{S1, S3},{S2, S4}。则为了计算得到和S1最相似的n个，则只需要计算J(S1, S2), J(S1, S3)，这样达到了减少了计算的目的。
+对每个binds中的n/b维特征向量进行hash计算，比如对于{S1, S2, S3, S4}，3个binds而言，第一个binds可能产生的数据为{S1, S2}, {S3}, {S4}，第二个binds为{S1}, {S2, S4}, {S3}，第三个binds为{S1, S3}, {S2, S4}。则为了计算得到和S1最相似的n个，则只需要计算J(S1, S2), J(S1, S3)，这样达到了减少了计算的目的。
 
 

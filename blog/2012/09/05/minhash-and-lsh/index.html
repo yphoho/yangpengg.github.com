@@ -194,6 +194,8 @@ h(S1) = a, h(S2) = c, h(S3) = b, h(S4) = a</p>
 <span class='line-number'>51</span>
 <span class='line-number'>52</span>
 <span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
 </pre></td><td class='code'><pre><code class=''><span class='line'>#!/usr/bin/env python
 </span><span class='line'># -*- coding: utf-8 -*-
 </span><span class='line'>
@@ -202,6 +204,7 @@ h(S1) = a, h(S2) = c, h(S3) = b, h(S4) = a</p>
 </span><span class='line'>    '''
 </span><span class='line'>        see mining-of-massive-datasets.pdf ch3 minhash for detail
 </span><span class='line'>    '''
+</span><span class='line'>
 </span><span class='line'>    # DEBUG = True
 </span><span class='line'>    DEBUG = False
 </span><span class='line'>
@@ -218,13 +221,14 @@ h(S1) = a, h(S2) = c, h(S3) = b, h(S4) = a</p>
 </span><span class='line'>        if DEBUG: print hashvalue
 </span><span class='line'>        for c in range(cols):
 </span><span class='line'>            if DEBUG: print '-' * 2, r, c
-</span><span class='line'>            if data[r][c] == 0: continue
+</span><span class='line'>            if data[r][c] == 0:
+</span><span class='line'>                continue
 </span><span class='line'>            for i in range(sigrows):
 </span><span class='line'>                if DEBUG: print '-' * 4, i, sigmatrix[i][c], hashvalue[i]
 </span><span class='line'>                if sigmatrix[i][c] &gt; hashvalue[i]:
 </span><span class='line'>                    sigmatrix[i][c] = hashvalue[i]
 </span><span class='line'>                if DEBUG: print '-' * 4, sigmatrix
-</span><span class='line'>                
+</span><span class='line'>
 </span><span class='line'>        if DEBUG:
 </span><span class='line'>            for xxxxxxx in sigmatrix:
 </span><span class='line'>                print xxxxxxx
@@ -240,11 +244,11 @@ h(S1) = a, h(S2) = c, h(S3) = b, h(S4) = a</p>
 </span><span class='line'>    def hash2(x):
 </span><span class='line'>        return (3 * x + 1) % 5
 </span><span class='line'>
-</span><span class='line'>    data = [[1,0,0,1],
-</span><span class='line'>            [0,0,1,0],
-</span><span class='line'>            [0,1,0,1],
-</span><span class='line'>            [1,0,1,1],
-</span><span class='line'>            [0,0,1,0]]
+</span><span class='line'>    data = [[1, 0, 0, 1],
+</span><span class='line'>            [0, 0, 1, 0],
+</span><span class='line'>            [0, 1, 0, 1],
+</span><span class='line'>            [1, 0, 1, 1],
+</span><span class='line'>            [0, 0, 1, 0]]
 </span><span class='line'>
 </span><span class='line'>    print minhash(data, [hash1, hash2])</span></code></pre></td></tr></table></div></figure>
 
@@ -253,9 +257,9 @@ h(S1) = a, h(S2) = c, h(S3) = b, h(S4) = a</p>
 
 <p>在推荐系统中，通常需要的是与S1 n个最相似的，而不是所有的。<a href="http://en.wikipedia.org/wiki/Locality_sensitive_hashing">Locality-Sensitive Hashing</a>的提出就是为了过滤明显不相似的，以此来减少计算。</p>
 
-<p>假设向量的维度为n，将n维分为b份，称为bands，每份为n/b维。同时存在b个hash函数，每个bands对应一个hash函数，每个hash函数接受n/b个参数，产生一个数值，把相同数值分为一组。</p>
+<p>假设向量的维度为n，将n维分为b份，称为bands，每份为n/b维。同时存在b个hash函数，每个bands对应一个hash函数，每个hash函数接受n/b个参数，产生一个数值，把相同数值的元素分为一组。</p>
 
-<p>对每个binds中的n/b维特征向量进行hash计算，比如对于{S1, S2, S3, S4}，3个binds而言，每一个binds可能产生的数据为{S1, S2},{S3},{S4}，每二个binds为{S1},{S2, Ss4},{S3}，每三个binds为{S1, S3},{S2, S4}。则为了计算得到和S1最相似的n个，则只需要计算J(S1, S2), J(S1, S3)，这样达到了减少了计算的目的。</p>
+<p>对每个binds中的n/b维特征向量进行hash计算，比如对于{S1, S2, S3, S4}，3个binds而言，第一个binds可能产生的数据为{S1, S2}, {S3}, {S4}，第二个binds为{S1}, {S2, S4}, {S3}，第三个binds为{S1, S3}, {S2, S4}。则为了计算得到和S1最相似的n个，则只需要计算J(S1, S2), J(S1, S3)，这样达到了减少了计算的目的。</p>
 </div>
 
 
@@ -281,6 +285,12 @@ h(S1) = a, h(S2) = c, h(S3) = b, h(S4) = a</p>
 <time datetime="2012-09-05T09:05:00+08:00" pubdate data-updated="true">Sep 5<span>th</span>, 2012</time>
       
 
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/algorithm/'>Algorithm</a>, <a class='category' href='/blog/categories/recommender-system/'>Recommender System</a>
+  
+</span>
+
 
     </p>
     
@@ -297,6 +307,8 @@ h(S1) = a, h(S2) = c, h(S3) = b, h(S4) = a</p>
       
         <a class="basic-alignment left" href="/blog/2012/08/21/octopress-setup/" title="Previous Post: Octopress Setup">&laquo; Octopress Setup</a>
       
+      
+        <a class="basic-alignment right" href="/blog/2012/11/02/view-transition-follow-finger/" title="Next Post: View Transition follow Finger">View Transition follow Finger &raquo;</a>
       
     </p>
   </footer>
@@ -317,6 +329,10 @@ h(S1) = a, h(S2) = c, h(S3) = b, h(S4) = a</p>
 <section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2012/11/02/view-transition-follow-finger/">View Transition follow Finger</a>
+      </li>
     
       <li class="post">
         <a href="/blog/2012/09/05/minhash-and-lsh/">Minhash and LSH</a>

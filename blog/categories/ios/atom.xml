@@ -4,7 +4,7 @@
   <title><![CDATA[Category: ios | yangpeng's Blog]]></title>
   <link href="http://yangpengg.github.com/blog/categories/ios/atom.xml" rel="self"/>
   <link href="http://yangpengg.github.com/"/>
-  <updated>2012-12-14T16:40:03+08:00</updated>
+  <updated>2012-12-16T01:35:07+08:00</updated>
   <id>http://yangpengg.github.com/</id>
   <author>
     <name><![CDATA[yp]]></name>
@@ -18,11 +18,12 @@
     <link href="http://yangpengg.github.com/blog/2012/11/02/view-transition-follow-finger/"/>
     <updated>2012-11-02T11:11:00+08:00</updated>
     <id>http://yangpengg.github.com/blog/2012/11/02/view-transition-follow-finger</id>
-    <content type="html"><![CDATA[<p>I use <a href="http://getprismatic.com/">Prismatic</a> as my main reading tool on iphone. I find the view transition of the app is very intresting(you can have a try <a href="https://itunes.apple.com/us/app/prismatic-always-interesting/id551206444?mt=8">here</a>), that i want to know how it does. By google, i find a <a href="http://iappexperience.com/post/23551184719/chromeless">blog</a> and you can get the <a href="https://github.com/dyang/DYNavigationController">source code</a>. With the demo you can swipe the ui to transition, but can't let the transition follows your finger. So i decide to write a demo myself.</p>
+    <content type="html"><![CDATA[<p>I use <a href="http://getprismatic.com/">Prismatic</a> as my main reading tool on iphone. I find the view transition of the app is very intresting(you can have a try <a href="https://itunes.apple.com/us/app/prismatic-always-interesting/id551206444?mt=8">here</a>), that i want to know how it does. By google, i find a <a href="http://iappexperience.com/post/23551184719/chromeless">blog</a> and you can get the <a href="https://github.com/dyang/DYNavigationController">source code</a>. With the demo you can swipe the ui to transition, but can’t let the transition follows your finger. So i decide to write a demo myself.</p>
 
 <p>I put my code on <a href="https://github.com/hermitinhistory/FollowFinger">github</a>, and you can get the most explanation from the blog above.</p>
 
 <p>Finally, big thanks to the author of the blog.</p>
+
 ]]></content>
   </entry>
   

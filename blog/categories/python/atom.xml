@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Python | yangpeng's Blog]]></title>
   <link href="http://yangpengg.github.com/blog/categories/python/atom.xml" rel="self"/>
   <link href="http://yangpengg.github.com/"/>
-  <updated>2012-12-14T16:40:03+08:00</updated>
+  <updated>2012-12-16T01:35:07+08:00</updated>
   <id>http://yangpengg.github.com/</id>
   <author>
     <name><![CDATA[yp]]></name>
@@ -20,41 +20,37 @@
     <id>http://yangpengg.github.com/blog/2012/12/13/decode-and-encode-in-python</id>
     <content type="html"><![CDATA[<p>本文主要针对2.7.x版本，对3.x版本可能不适用。</p>
 
-<h1>什么是Decode, Encode</h1>
+<h1 id="decode-encode">什么是Decode, Encode</h1>
 
 <p>Python内部使用Unicode对所有的字符编码。对于Python而言，Decode指的是将其它编码转化为Unicode，Encode指把Unicode转化为其它编码。</p>
 
 <p>本文只针对utf-8与Unicode的转化，gbk, gb2312就不添乱了。不过可以简单说一句，Python识别源文件的编码主要根据两个内容：</p>
 
 <ul>
-<li>源码中的coding，如：</li>
+  <li>源码中的coding，如：</li>
 </ul>
 
-
-<p>```</p>
-
-<h1>-<em>- coding: utf-8 -</em>-</h1>
-
-<p>```</p>
+<p><code>
+# -*- coding: utf-8 -*-
+</code></p>
 
 <ul>
-<li>源码文件的实际编码</li>
+  <li>源码文件的实际编码</li>
 </ul>
 
-
-<h1>decode, encode, unicode函数</h1>
+<h1 id="decode-encode-unicode">decode, encode, unicode函数</h1>
 
 <p>在Python console输入以下内容：</p>
 
 <p>```
-ustring = u'我们'
-ustring                       # u'\u6211\u4eec'
-ustring.encode('utf-8')       # '\xe6\x88\x91\xe4\xbb\xac'</p>
+ustring = u’我们’
+ustring                       # u’\u6211\u4eec’
+ustring.encode(‘utf-8’)       # ‘\xe6\x88\x91\xe4\xbb\xac’</p>
 
-<p>string = '我们'
-string                        # '\xe6\x88\x91\xe4\xbb\xac'
-string.decode('utf-8')        # u'\u6211\u4eec'
-unicode(string, 'utf-8')      # u'\u6211\u4eec'
+<p>string = ‘我们’
+string                        # ‘\xe6\x88\x91\xe4\xbb\xac’
+string.decode(‘utf-8’)        # u’\u6211\u4eec’
+unicode(string, ‘utf-8’)      # u’\u6211\u4eec’
 ```</p>
 
 <p>以上的内容是Mac下的结果，在Linux应该也没有问题，但不保证在Windows下也会产生相同的结果。原因还是以上两条，而Mac和Linux的shell编码是utf-8的，Windows就不清楚了。</p>
@@ -62,13 +58,18 @@ unicode(string, 'utf-8')      # u'\u6211\u4eec'
 <p>从以上的代码可以得出：</p>
 
 <ul>
-<li><p>unicode和decode的作用是一样的，都是把其它编码转化成Unicode；</p></li>
-<li><p>字符前加'u'表示Unicode编码，不加任何东西则是默认编码；</p></li>
-<li><p>encode和decode确实是按照之前提到的那样工作；</p></li>
+  <li>
+    <p>unicode和decode的作用是一样的，都是把其它编码转化成Unicode；</p>
+  </li>
+  <li>
+    <p>字符前加’u’表示Unicode编码，不加任何东西则是默认编码；</p>
+  </li>
+  <li>
+    <p>encode和decode确实是按照之前提到的那样工作；</p>
+  </li>
 </ul>
 
-
-<h1>读写文件时的编码转化</h1>
+<h1 id="section">读写文件时的编码转化</h1>
 
 <p>继续输入以下代码：</p>
 
@@ -88,41 +89,35 @@ ustring = open('gbk.txt', 'rb').read().decode('gbk')
 open('utf-8.txt', 'wb').write(ustring.encode('utf-8'))
 </code></p>
 
-<h1>读写json时的编码转化</h1>
+<h1 id="json">读写json时的编码转化</h1>
 
-<h2>json.dump</h2>
+<h2 id="jsondump">json.dump</h2>
 
 <p>输入以下代码：</p>
 
 <p>```
 import json</p>
 
-<p>address = [{'name': '杨xx', 'country': '中国'}, {'name': '卢xx', 'country': '美 国'}]
-json.dump(address, open('address.json', 'wb'), indent=2)
+<p>address = [{‘name’: ‘杨xx’, ‘country’: ‘中国’}, {‘name’: ‘卢xx’, ‘country’: ‘美国’}]
+json.dump(address, open(‘address.json’, ‘wb’), indent=2)
 ```</p>
 
 <p>然后打开address.json文件，看到的内容如下：</p>
 
-<p>```
+<p><code>
 [
-  {</p>
-
-<pre><code>"country": "\u4e2d\u56fd", 
-"name": "\u6768xx"
-</code></pre>
-
-<p>  },
-  {</p>
-
-<pre><code>"country": "\u7f8e\u56fd", 
-"name": "\u5362xx"
-</code></pre>
-
-<p>  }
+  {
+    "country": "\u4e2d\u56fd", 
+    "name": "\u6768xx"
+  }, 
+  {
+    "country": "\u7f8e\u56fd", 
+    "name": "\u5362xx"
+  }
 ]
-```</p>
+</code></p>
 
-<p>之所以看到这样的结果，是因为json模块内部对address转化成字串的时候，把字串从其它编码解码为Unicode（其实json.dump还有一个参数encoding，默认为'utf-8'，这里没有显示给出），然后又对Unicode进行了转义（这里write没有报UnicodeDecodeError，是因为json内部把Unicode二进制转化成了'\u4e2d'这样的串，这就是所谓的转义），最后write转义后的字符。</p>
+<p>之所以看到这样的结果，是因为json模块内部对address转化成字串的时候，把字串从其它编码解码为Unicode（其实json.dump还有一个参数encoding，默认为’utf-8’，这里没有给出），然后又对Unicode进行了转义（这里write没有报UnicodeDecodeError，是因为json内部把Unicode二进制转化成了’\u4e2d’这样的串，这就是所谓的转义），最后write转义后的字符。</p>
 
 <p>如果这种情况下想要等到正常的中文串，可以这样做：</p>
 
@@ -130,17 +125,14 @@ json.dump(address, open('address.json', 'wb'), indent=2)
 json.dump(address, open('address2.json', 'wb'), indent=2, ensure_ascii=False)
 </code></p>
 
-<p>设置ensure_ascii=False禁止json进行解码和转义，又因为address的编码就是'utf-8'的，所以write的时候不会报错。</p>
+<p>设置ensure_ascii=False禁止json进行解码和转义，又因为address的编码就是’utf-8’的，所以write的时候不会报错。</p>
 
 <p>但是如果遇到这种情况：</p>
 
-<p>```
-address = [{u'name': u'杨xx', u'country': u'中国'},</p>
-
-<pre><code>       {u'name': u'卢xx', u'country': u'美 国'}]
-</code></pre>
-
-<p>```</p>
+<p><code>
+address = [{u'name': u'杨xx', u'country': u'中国'},
+           {u'name': u'卢xx', u'country': u'美国'}]
+</code></p>
 
 <p>直接调用：</p>
 
@@ -172,21 +164,19 @@ open('address2.json', 'wb').write(jsonunicodestr.encode('utf-8'))
 <p>```
 import codecs</p>
 
-<p>json.dump(address, codecs.open('address2.json', 'wb', 'utf-8'), indent=2, ensure_ascii=False)
+<p>json.dump(address, codecs.open(‘address2.json’, ‘wb’, ‘utf-8’), indent=2, ensure_ascii=False)
 ```</p>
 
-<h2>json.load</h2>
+<h2 id="jsonload">json.load</h2>
 
 <p>无论是从address.json还是address2.json，调用json.load的时候得到的都是Unicode编码的字符。</p>
 
-<h1>关于Python编码处理几点想法</h1>
-
+<h1 id="python">关于Python编码处理几点想法</h1>
 <ul>
-<li>任何时候使用utf-8；</li>
-<li>怎么进，怎么出，尽量不涉及编码问题；</li>
-<li>json模块是个意外，经过json的所有字符都会解码成Unicode；</li>
+  <li>任何时候使用utf-8；</li>
+  <li>怎么进，怎么出，尽量不涉及编码问题；</li>
+  <li>json模块是个意外，经过json的所有字符都会解码成Unicode；</li>
 </ul>
-
 ]]></content>
   </entry>
   

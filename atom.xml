@@ -4,7 +4,7 @@
   <title><![CDATA[yangpeng's Blog]]></title>
   <link href="http://yangpengg.github.com/atom.xml" rel="self"/>
   <link href="http://yangpengg.github.com/"/>
-  <updated>2012-12-14T16:40:03+08:00</updated>
+  <updated>2012-12-16T01:35:07+08:00</updated>
   <id>http://yangpengg.github.com/</id>
   <author>
     <name><![CDATA[yp]]></name>
@@ -14,195 +14,244 @@
 
   
   <entry>
+    <title type="html"><![CDATA[MathJax Test]]></title>
+    <link href="http://yangpengg.github.com/blog/2012/12/15/mathjax-test/"/>
+    <updated>2012-12-15T23:12:00+08:00</updated>
+    <id>http://yangpengg.github.com/blog/2012/12/15/mathjax-test</id>
+    <content type="html"><![CDATA[<h1 id="instruction">Instruction</h1>
+
+<p><a href="http://www.idryman.org/blog/2012/03/10/writing-math-equations-on-octopress/">Here</a> is a good instructions to set the MathJax for Octopress.</p>
+
+<p>There are two things to point:</p>
+
+<ul>
+  <li>‘gem install kramdown’ is not needed, cause of the installed when setup Octopress;</li>
+  <li>I have not found something useful about ‘change Gemfile to kramdown’;</li>
+</ul>
+
+<h1 id="latex-test">Latex Test</h1>
+
+<h2 id="gaussian-function">Gaussian Function</h2>
+
+<script type="math/tex; mode=display">
+f(x; \mu, \sigma^2) = \frac{1}{\sigma\sqrt{2\pi}}e^{-\frac{1}{2}(\frac{x-\mu}{\sigma})^2}
+</script>
+
+<h2 id="equation-used-in-gradient-descent">Equation Used in Gradient Descent</h2>
+
+<script type="math/tex; mode=display">
+h_\theta(x) = \sum_{i=0}^n\theta_ix_i = \Theta^Tx
+</script>
+
+<script type="math/tex; mode=display">
+J(\theta) = \frac{1}{2}\sum_{i=1}^m(h_\theta(x^i) - y^i)^2
+</script>
+
+<script type="math/tex; mode=display">
+\theta_j := \theta_j + \alpha\sum_{i=1}^m(y^i - h_\theta(x^i))x_j^i
+</script>
+
+<h2 id="a-long-equation">A Long Equation</h2>
+
+<script type="math/tex; mode=display">% &lt;![CDATA[
+
+\begin{align*}
+  & \phi(x,y) = \phi \left(\sum_{i=1}^n x_ie_i, \sum_{j=1}^n y_je_j \right)
+  = \sum_{i=1}^n \sum_{j=1}^n x_i y_j \phi(e_i, e_j) = \\
+  & (x_1, \ldots, x_n) \left( \begin{array}{ccc}
+      \phi(e_1, e_1) & \cdots & \phi(e_1, e_n) \\
+      \vdots & \ddots & \vdots \\
+      \phi(e_n, e_1) & \cdots & \phi(e_n, e_n)
+    \end{array} \right)
+  \left( \begin{array}{c}
+      y_1 \\
+      \vdots \\
+      y_n
+    \end{array} \right)
+\end{align*}
+ %]]&gt;</script>
+]]></content>
+  </entry>
+  
+  <entry>
     <title type="html"><![CDATA[Decode and Encode in Python]]></title>
     <link href="http://yangpengg.github.com/blog/2012/12/13/decode-and-encode-in-python/"/>
     <updated>2012-12-13T15:09:00+08:00</updated>
     <id>http://yangpengg.github.com/blog/2012/12/13/decode-and-encode-in-python</id>
     <content type="html"><![CDATA[<p>本文主要针对2.7.x版本，对3.x版本可能不适用。</p>
 
-<h1>什么是Decode, Encode</h1>
+<h1 id="decode-encode">什么是Decode, Encode</h1>
 
 <p>Python内部使用Unicode对所有的字符编码。对于Python而言，Decode指的是将其它编码转化为Unicode，Encode指把Unicode转化为其它编码。</p>
 
 <p>本文只针对utf-8与Unicode的转化，gbk, gb2312就不添乱了。不过可以简单说一句，Python识别源文件的编码主要根据两个内容：</p>
 
 <ul>
-<li>源码中的coding，如：</li>
+  <li>源码中的coding，如：</li>
 </ul>
 
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'># -*- coding: utf-8 -*-</span></code></pre></td></tr></table></div></figure>
-
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line"># -*- coding: utf-8 -*-</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <ul>
-<li>源码文件的实际编码</li>
+  <li>源码文件的实际编码</li>
 </ul>
 
-
-<h1>decode, encode, unicode函数</h1>
+<h1 id="decode-encode-unicode">decode, encode, unicode函数</h1>
 
 <p>在Python console输入以下内容：</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>ustring = u'我们'
-</span><span class='line'>ustring                       # u'\u6211\u4eec'
-</span><span class='line'>ustring.encode('utf-8')       # '\xe6\x88\x91\xe4\xbb\xac'
-</span><span class='line'>
-</span><span class='line'>string = '我们'
-</span><span class='line'>string                        # '\xe6\x88\x91\xe4\xbb\xac'
-</span><span class='line'>string.decode('utf-8')        # u'\u6211\u4eec'
-</span><span class='line'>unicode(string, 'utf-8')      # u'\u6211\u4eec'</span></code></pre></td></tr></table></div></figure>
-
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">ustring = u'我们'
+</span><span class="line">ustring                       # u'\u6211\u4eec'
+</span><span class="line">ustring.encode('utf-8')       # '\xe6\x88\x91\xe4\xbb\xac'
+</span><span class="line">
+</span><span class="line">string = '我们'
+</span><span class="line">string                        # '\xe6\x88\x91\xe4\xbb\xac'
+</span><span class="line">string.decode('utf-8')        # u'\u6211\u4eec'
+</span><span class="line">unicode(string, 'utf-8')      # u'\u6211\u4eec'</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>以上的内容是Mac下的结果，在Linux应该也没有问题，但不保证在Windows下也会产生相同的结果。原因还是以上两条，而Mac和Linux的shell编码是utf-8的，Windows就不清楚了。</p>
 
 <p>从以上的代码可以得出：</p>
 
 <ul>
-<li><p>unicode和decode的作用是一样的，都是把其它编码转化成Unicode；</p></li>
-<li><p>字符前加&#8217;u&#8217;表示Unicode编码，不加任何东西则是默认编码；</p></li>
-<li><p>encode和decode确实是按照之前提到的那样工作；</p></li>
+  <li>
+    <p>unicode和decode的作用是一样的，都是把其它编码转化成Unicode；</p>
+  </li>
+  <li>
+    <p>字符前加’u’表示Unicode编码，不加任何东西则是默认编码；</p>
+  </li>
+  <li>
+    <p>encode和decode确实是按照之前提到的那样工作；</p>
+  </li>
 </ul>
 
-
-<h1>读写文件时的编码转化</h1>
+<h1 id="section">读写文件时的编码转化</h1>
 
 <p>继续输入以下代码：</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>open('unicode.txt', 'wb').write(ustring)                   # UnicodeDecodeError
-</span><span class='line'>open('utf-8.txt', 'wb').write(ustring.encode('utf-8'))
-</span><span class='line'>open('utf-8.txt', 'rb').read()                             # '\xe6\x88\x91\xe4\xbb\xac'
-</span><span class='line'>open('utf-8.txt', 'rb').read().decode('utf-8')             # u'\u6211\u4eec'</span></code></pre></td></tr></table></div></figure>
-
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">open('unicode.txt', 'wb').write(ustring)                   # UnicodeDecodeError
+</span><span class="line">open('utf-8.txt', 'wb').write(ustring.encode('utf-8'))
+</span><span class="line">open('utf-8.txt', 'rb').read()                             # '\xe6\x88\x91\xe4\xbb\xac'
+</span><span class="line">open('utf-8.txt', 'rb').read().decode('utf-8')             # u'\u6211\u4eec'</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>第一条语句是报错的，也就是说Python的内部编码字符串是不能直接写到文件的，应该先encode到一种编码之后再写入到文件。</p>
 
 <p>read调用读取的是原始内容，不经过任何编码，所以需要在程序中自己处理编码问题。比如要把gbk转化成utf-8，则这样调用：</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>ustring = open('gbk.txt', 'rb').read().decode('gbk')
-</span><span class='line'>open('utf-8.txt', 'wb').write(ustring.encode('utf-8'))</span></code></pre></td></tr></table></div></figure>
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">ustring = open('gbk.txt', 'rb').read().decode('gbk')
+</span><span class="line">open('utf-8.txt', 'wb').write(ustring.encode('utf-8'))</span></code></pre></td></tr></table></div></figure></notextile></div>
 
+<h1 id="json">读写json时的编码转化</h1>
 
-<h1>读写json时的编码转化</h1>
-
-<h2>json.dump</h2>
+<h2 id="jsondump">json.dump</h2>
 
 <p>输入以下代码：</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>import json
-</span><span class='line'>
-</span><span class='line'>address = [{'name': '杨xx', 'country': '中国'}, {'name': '卢xx', 'country': '美 国'}]
-</span><span class='line'>json.dump(address, open('address.json', 'wb'), indent=2)</span></code></pre></td></tr></table></div></figure>
-
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">import json
+</span><span class="line">
+</span><span class="line">address = [{'name': '杨xx', 'country': '中国'}, {'name': '卢xx', 'country': '美国'}]
+</span><span class="line">json.dump(address, open('address.json', 'wb'), indent=2)</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>然后打开address.json文件，看到的内容如下：</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>[
-</span><span class='line'>  {
-</span><span class='line'>    "country": "\u4e2d\u56fd", 
-</span><span class='line'>    "name": "\u6768xx"
-</span><span class='line'>  }, 
-</span><span class='line'>  {
-</span><span class='line'>    "country": "\u7f8e\u56fd", 
-</span><span class='line'>    "name": "\u5362xx"
-</span><span class='line'>  }
-</span><span class='line'>]</span></code></pre></td></tr></table></div></figure>
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">[
+</span><span class="line">  {
+</span><span class="line">    "country": "\u4e2d\u56fd", 
+</span><span class="line">    "name": "\u6768xx"
+</span><span class="line">  }, 
+</span><span class="line">  {
+</span><span class="line">    "country": "\u7f8e\u56fd", 
+</span><span class="line">    "name": "\u5362xx"
+</span><span class="line">  }
+</span><span class="line">]</span></code></pre></td></tr></table></div></figure></notextile></div>
 
-
-<p>之所以看到这样的结果，是因为json模块内部对address转化成字串的时候，把字串从其它编码解码为Unicode（其实json.dump还有一个参数encoding，默认为&#8217;utf-8&#8217;，这里没有显示给出），然后又对Unicode进行了转义（这里write没有报UnicodeDecodeError，是因为json内部把Unicode二进制转化成了&#8217;\u4e2d&#8217;这样的串，这就是所谓的转义），最后write转义后的字符。</p>
+<p>之所以看到这样的结果，是因为json模块内部对address转化成字串的时候，把字串从其它编码解码为Unicode（其实json.dump还有一个参数encoding，默认为’utf-8’，这里没有给出），然后又对Unicode进行了转义（这里write没有报UnicodeDecodeError，是因为json内部把Unicode二进制转化成了’\u4e2d’这样的串，这就是所谓的转义），最后write转义后的字符。</p>
 
 <p>如果这种情况下想要等到正常的中文串，可以这样做：</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>json.dump(address, open('address2.json', 'wb'), indent=2, ensure_ascii=False)</span></code></pre></td></tr></table></div></figure>
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">json.dump(address, open('address2.json', 'wb'), indent=2, ensure_ascii=False)</span></code></pre></td></tr></table></div></figure></notextile></div>
 
-
-<p>设置ensure_ascii=False禁止json进行解码和转义，又因为address的编码就是&#8217;utf-8&#8217;的，所以write的时候不会报错。</p>
+<p>设置ensure_ascii=False禁止json进行解码和转义，又因为address的编码就是’utf-8’的，所以write的时候不会报错。</p>
 
 <p>但是如果遇到这种情况：</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>address = [{u'name': u'杨xx', u'country': u'中国'},
-</span><span class='line'>           {u'name': u'卢xx', u'country': u'美 国'}]</span></code></pre></td></tr></table></div></figure>
-
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">address = [{u'name': u'杨xx', u'country': u'中国'},
+</span><span class="line">           {u'name': u'卢xx', u'country': u'美国'}]</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>直接调用：</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>json.dump(address, open('address.json', 'wb'), indent=2)</span></code></pre></td></tr></table></div></figure>
-
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">json.dump(address, open('address.json', 'wb'), indent=2)</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>没有悬念，会得到如上address.json的结果。需要指出的是这次json在内部判断出字符是Unicode编码，所以省略了解编的步骤，只进行转义。</p>
 
 <p>如果想得到中文，按照以上的经验应该输入:</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>json.dump(address, open('address2.json', 'wb'), indent=2, ensure_ascii=False)</span></code></pre></td></tr></table></div></figure>
-
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">json.dump(address, open('address2.json', 'wb'), indent=2, ensure_ascii=False)</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>好吧，出错了，又是UnicodeEncodeError。简单分析一下可以得到结论，ensure_ascii=False保证不会进行解码（当然这里不需要解码）和转义，这样json输出给write的就直接是Unicode字符，之前已经提到过了，write是不能直接写Unicode的。</p>
 
 <p>那么如何让json输出正常的中文呢？一种比较容易想到的就是把整个address的字符全部用utf-8编码之后再像写address2.json那样输出。但是这种方法代价比较大，另一种比较好的方式是：</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>jsonunicodestr = json.dumps(address, indent=2, ensure_ascii=False)
-</span><span class='line'>open('address2.json', 'wb').write(jsonunicodestr.encode('utf-8'))</span></code></pre></td></tr></table></div></figure>
-
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">jsonunicodestr = json.dumps(address, indent=2, ensure_ascii=False)
+</span><span class="line">open('address2.json', 'wb').write(jsonunicodestr.encode('utf-8'))</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>第一句把address转化成一个字符串，而且不进行转义，所以整个jsonunicodestr是Unicode字串。然后把字串编码成utf-8写入文件。</p>
 
 <p>当然也可以合二为一：</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>import codecs
-</span><span class='line'>
-</span><span class='line'>json.dump(address, codecs.open('address2.json', 'wb', 'utf-8'), indent=2, ensure_ascii=False)</span></code></pre></td></tr></table></div></figure>
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">import codecs
+</span><span class="line">
+</span><span class="line">json.dump(address, codecs.open('address2.json', 'wb', 'utf-8'), indent=2, ensure_ascii=False)</span></code></pre></td></tr></table></div></figure></notextile></div>
 
-
-<h2>json.load</h2>
+<h2 id="jsonload">json.load</h2>
 
 <p>无论是从address.json还是address2.json，调用json.load的时候得到的都是Unicode编码的字符。</p>
 
-<h1>关于Python编码处理几点想法</h1>
-
+<h1 id="python">关于Python编码处理几点想法</h1>
 <ul>
-<li>任何时候使用utf-8；</li>
-<li>怎么进，怎么出，尽量不涉及编码问题；</li>
-<li>json模块是个意外，经过json的所有字符都会解码成Unicode；</li>
+  <li>任何时候使用utf-8；</li>
+  <li>怎么进，怎么出，尽量不涉及编码问题；</li>
+  <li>json模块是个意外，经过json的所有字符都会解码成Unicode；</li>
 </ul>
-
 ]]></content>
   </entry>
   
@@ -211,11 +260,12 @@
     <link href="http://yangpengg.github.com/blog/2012/11/02/view-transition-follow-finger/"/>
     <updated>2012-11-02T11:11:00+08:00</updated>
     <id>http://yangpengg.github.com/blog/2012/11/02/view-transition-follow-finger</id>
-    <content type="html"><![CDATA[<p>I use <a href="http://getprismatic.com/">Prismatic</a> as my main reading tool on iphone. I find the view transition of the app is very intresting(you can have a try <a href="https://itunes.apple.com/us/app/prismatic-always-interesting/id551206444?mt=8">here</a>), that i want to know how it does. By google, i find a <a href="http://iappexperience.com/post/23551184719/chromeless">blog</a> and you can get the <a href="https://github.com/dyang/DYNavigationController">source code</a>. With the demo you can swipe the ui to transition, but can&#8217;t let the transition follows your finger. So i decide to write a demo myself.</p>
+    <content type="html"><![CDATA[<p>I use <a href="http://getprismatic.com/">Prismatic</a> as my main reading tool on iphone. I find the view transition of the app is very intresting(you can have a try <a href="https://itunes.apple.com/us/app/prismatic-always-interesting/id551206444?mt=8">here</a>), that i want to know how it does. By google, i find a <a href="http://iappexperience.com/post/23551184719/chromeless">blog</a> and you can get the <a href="https://github.com/dyang/DYNavigationController">source code</a>. With the demo you can swipe the ui to transition, but can’t let the transition follows your finger. So i decide to write a demo myself.</p>
 
 <p>I put my code on <a href="https://github.com/hermitinhistory/FollowFinger">github</a>, and you can get the most explanation from the blog above.</p>
 
 <p>Finally, big thanks to the author of the blog.</p>
+
 ]]></content>
   </entry>
   
@@ -226,30 +276,32 @@
     <id>http://yangpengg.github.com/blog/2012/09/05/minhash-and-lsh</id>
     <content type="html"><![CDATA[<p>本文主要参考<a href="http://i.stanford.edu/~ullman/mmds.html">Mining of Massive Datasets</a>中第三章相关内容。</p>
 
-<h1>Jaccard Similarity</h1>
+<h1 id="jaccard-similarity">Jaccard Similarity</h1>
 
-<p>在推荐系统经常要做相似度计算，其中比较简单的一种是<a href="http://en.wikipedia.org/wiki/Jaccard_index">Jaccard Similarity</a>。Jaccard Similarity描述如下：<br/>
-设A,B为两个特征向量，比如为两个user投过票的电影，则</p>
+<p>在推荐系统经常要做相似度计算，其中比较简单的一种是<a href="http://en.wikipedia.org/wiki/Jaccard_index">Jaccard Similarity</a>。Jaccard Similarity描述如下：<br />
+设A,B为两个特征向量，比如为两个user投过票的电影，则  </p>
 
-<p><img src="http://upload.wikimedia.org/math/1/8/6/186c7f4e83da32e889d606140fae25a0.png" alt="jaccard" /></p>
+<script type="math/tex; mode=display">
+J(A, B) = \frac{|A \cap B|}{|A \cup B|}
+</script>
 
 <p>J(A,B)的值介于0-1之间，数值越大，相似度越高。</p>
 
 <p>Jaccard相似度计算很简单，但是当特征向量维数很高的时候(比如文档的特征向量经常会上万维)，这个计算也会很耗时，这时通用的方法是降维，Minhash也可以算作针对Jaccard相似度的降维方法。</p>
 
-<h1>Minhash</h1>
+<h1 id="minhash">Minhash</h1>
 
 <p>Minhash思想是用一个维度比较小的<em>signatures</em>代替原来维度很大的特征向量，而且可以通过计算这个signatures向量Jaccard相似度去估计原来特征向量的Jaccard相似度。</p>
 
-<h2>特征向量的矩阵表示</h2>
+<h2 id="section">特征向量的矩阵表示</h2>
 
 <p>如S1 = {a, d}, S2 = {c}, S3 = {b, d, e}, S4 = {a, c, d}，则表示为矩阵：</p>
 
 <p><img src="http://yangpengg.github.com/images/blogpng/matrix-representation.png" alt="Matrix Representation" /></p>
 
-<p>以电商为例，这个矩阵可以解释为：用户S1购买过a,d两个商品，S2购买过c，S3购买过b,d,e，&#8230;</p>
+<p>以电商为例，这个矩阵可以解释为：用户S1购买过a,d两个商品，S2购买过c，S3购买过b,d,e，…</p>
 
-<h2>Minhash计算原理</h2>
+<h2 id="minhash-1">Minhash计算原理</h2>
 
 <p>为了推荐物品给S1，思路可以是计算出和S1相似的用户，查看这个(些)用户的购买记录，推荐其中S1没有购买过的商品。可以使用Jaccard相似度计算S1的相似用户，但是现在用户的特征向量是5维的，是不是可以使用更少的维度就可以得到Jaccard相似度。</p>
 
@@ -259,142 +311,142 @@
 
 <p>根据这个hash函数，每个特征向量的minhash值定义为：第一个value不为0的Element的值。</p>
 
-<p>从矩阵中可以的得到：<br/>
+<p>从矩阵中可以的得到：<br />
 h(S1) = a, h(S2) = c, h(S3) = b, h(S4) = a</p>
 
 <p>可以取另一个Element的不同的全排列，再进行一次以上的步骤，可以得到一组不同的minhash值。将所有的minhash值组合成矩阵，则新生成的矩阵可以作为新的特征向量。如果只取两个排列的话，则原来的5维特征向量降到了2维。</p>
 
-<h2>计算Minhash</h2>
+<h2 id="minhash-2">计算Minhash</h2>
 
 <p>实际应用中，如果特征维度很高的话，产生一次全排列是很费时的，所以通常并不会通过产生全排列计算minhash值。</p>
 
-<p>如果特征向量为k维，则可以取n个hash函数，将0,1,&#8230;,k-1重新映射到0,1,&#8230;,k-1。类比于全排列，这些hash函数的意义相当于将第r维的特征放到了h(r)维，相当于产生了n个全排列。当然hash函数不可避免会有冲突，但是只要k足够大(如果不够大的话，就不需要minhash了)，而冲突不太多的时候，这个影响可以忽略。</p>
+<p>如果特征向量为k维，则可以取n个hash函数，将0,1,…,k-1重新映射到0,1,…,k-1。类比于全排列，这些hash函数的意义相当于将第r维的特征放到了h(r)维，相当于产生了n个全排列。当然hash函数不可避免会有冲突，但是只要k足够大(如果不够大的话，就不需要minhash了)，而冲突不太多的时候，这个影响可以忽略。</p>
 
-<p>如果以h1,h2,&#8230;,hn表示n个随机hash函数，r表示原矩阵的行数，SIG(i, c)表示为新生成矩阵第i个hash函数(也就是第i行)，第c列的元素。首先设所有SIG中的元素为MAXINT，然后对每一行r作如想处理：</p>
+<p>如果以h1,h2,…,hn表示n个随机hash函数，r表示原矩阵的行数，SIG(i, c)表示为新生成矩阵第i个hash函数(也就是第i行)，第c列的元素。首先设所有SIG中的元素为MAXINT，然后对每一行r作如想处理：</p>
 
 <p><img src="http://yangpengg.github.com/images/blogpng/algo-minhash.png" alt="algo minhash" /></p>
 
 <p>Minhash的python实现：</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-<span class='line-number'>38</span>
-<span class='line-number'>39</span>
-<span class='line-number'>40</span>
-<span class='line-number'>41</span>
-<span class='line-number'>42</span>
-<span class='line-number'>43</span>
-<span class='line-number'>44</span>
-<span class='line-number'>45</span>
-<span class='line-number'>46</span>
-<span class='line-number'>47</span>
-<span class='line-number'>48</span>
-<span class='line-number'>49</span>
-<span class='line-number'>50</span>
-<span class='line-number'>51</span>
-<span class='line-number'>52</span>
-<span class='line-number'>53</span>
-<span class='line-number'>54</span>
-<span class='line-number'>55</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>#!/usr/bin/env python
-</span><span class='line'># -*- coding: utf-8 -*-
-</span><span class='line'>
-</span><span class='line'>
-</span><span class='line'>def minhash(data, hashfuncs):
-</span><span class='line'>    '''
-</span><span class='line'>        see mining-of-massive-datasets.pdf ch3 minhash for detail
-</span><span class='line'>    '''
-</span><span class='line'>
-</span><span class='line'>    # DEBUG = True
-</span><span class='line'>    DEBUG = False
-</span><span class='line'>
-</span><span class='line'>    rows, cols, sigrows = len(data), len(data[0]), len(hashfuncs)
-</span><span class='line'>
-</span><span class='line'>    # fucking the shadow copy
-</span><span class='line'>    # sigmatrix = [[1000000] * cols] * sigrows
-</span><span class='line'>    sigmatrix = []
-</span><span class='line'>    for i in range(sigrows):
-</span><span class='line'>        sigmatrix.append([10000000] * cols)
-</span><span class='line'>
-</span><span class='line'>    for r in range(rows):
-</span><span class='line'>        hashvalue = map(lambda x: x(r), hashfuncs)
-</span><span class='line'>        if DEBUG: print hashvalue
-</span><span class='line'>        for c in range(cols):
-</span><span class='line'>            if DEBUG: print '-' * 2, r, c
-</span><span class='line'>            if data[r][c] == 0:
-</span><span class='line'>                continue
-</span><span class='line'>            for i in range(sigrows):
-</span><span class='line'>                if DEBUG: print '-' * 4, i, sigmatrix[i][c], hashvalue[i]
-</span><span class='line'>                if sigmatrix[i][c] &gt; hashvalue[i]:
-</span><span class='line'>                    sigmatrix[i][c] = hashvalue[i]
-</span><span class='line'>                if DEBUG: print '-' * 4, sigmatrix
-</span><span class='line'>
-</span><span class='line'>        if DEBUG:
-</span><span class='line'>            for xxxxxxx in sigmatrix:
-</span><span class='line'>                print xxxxxxx
-</span><span class='line'>            print '=' * 30
-</span><span class='line'>
-</span><span class='line'>    return sigmatrix
-</span><span class='line'>
-</span><span class='line'>
-</span><span class='line'>if __name__ == '__main__':
-</span><span class='line'>    def hash1(x):
-</span><span class='line'>        return (x + 1) % 5
-</span><span class='line'>
-</span><span class='line'>    def hash2(x):
-</span><span class='line'>        return (3 * x + 1) % 5
-</span><span class='line'>
-</span><span class='line'>    data = [[1, 0, 0, 1],
-</span><span class='line'>            [0, 0, 1, 0],
-</span><span class='line'>            [0, 1, 0, 1],
-</span><span class='line'>            [1, 0, 1, 1],
-</span><span class='line'>            [0, 0, 1, 0]]
-</span><span class='line'>
-</span><span class='line'>    print minhash(data, [hash1, hash2])</span></code></pre></td></tr></table></div></figure>
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+<span class="line-number">18</span>
+<span class="line-number">19</span>
+<span class="line-number">20</span>
+<span class="line-number">21</span>
+<span class="line-number">22</span>
+<span class="line-number">23</span>
+<span class="line-number">24</span>
+<span class="line-number">25</span>
+<span class="line-number">26</span>
+<span class="line-number">27</span>
+<span class="line-number">28</span>
+<span class="line-number">29</span>
+<span class="line-number">30</span>
+<span class="line-number">31</span>
+<span class="line-number">32</span>
+<span class="line-number">33</span>
+<span class="line-number">34</span>
+<span class="line-number">35</span>
+<span class="line-number">36</span>
+<span class="line-number">37</span>
+<span class="line-number">38</span>
+<span class="line-number">39</span>
+<span class="line-number">40</span>
+<span class="line-number">41</span>
+<span class="line-number">42</span>
+<span class="line-number">43</span>
+<span class="line-number">44</span>
+<span class="line-number">45</span>
+<span class="line-number">46</span>
+<span class="line-number">47</span>
+<span class="line-number">48</span>
+<span class="line-number">49</span>
+<span class="line-number">50</span>
+<span class="line-number">51</span>
+<span class="line-number">52</span>
+<span class="line-number">53</span>
+<span class="line-number">54</span>
+<span class="line-number">55</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">#!/usr/bin/env python
+</span><span class="line"># -*- coding: utf-8 -*-
+</span><span class="line">
+</span><span class="line">
+</span><span class="line">def minhash(data, hashfuncs):
+</span><span class="line">    '''
+</span><span class="line">        see mining-of-massive-datasets.pdf ch3 minhash for detail
+</span><span class="line">    '''
+</span><span class="line">
+</span><span class="line">    # DEBUG = True
+</span><span class="line">    DEBUG = False
+</span><span class="line">
+</span><span class="line">    rows, cols, sigrows = len(data), len(data[0]), len(hashfuncs)
+</span><span class="line">
+</span><span class="line">    # fucking the shadow copy
+</span><span class="line">    # sigmatrix = [[1000000] * cols] * sigrows
+</span><span class="line">    sigmatrix = []
+</span><span class="line">    for i in range(sigrows):
+</span><span class="line">        sigmatrix.append([10000000] * cols)
+</span><span class="line">
+</span><span class="line">    for r in range(rows):
+</span><span class="line">        hashvalue = map(lambda x: x(r), hashfuncs)
+</span><span class="line">        if DEBUG: print hashvalue
+</span><span class="line">        for c in range(cols):
+</span><span class="line">            if DEBUG: print '-' * 2, r, c
+</span><span class="line">            if data[r][c] == 0:
+</span><span class="line">                continue
+</span><span class="line">            for i in range(sigrows):
+</span><span class="line">                if DEBUG: print '-' * 4, i, sigmatrix[i][c], hashvalue[i]
+</span><span class="line">                if sigmatrix[i][c] &gt; hashvalue[i]:
+</span><span class="line">                    sigmatrix[i][c] = hashvalue[i]
+</span><span class="line">                if DEBUG: print '-' * 4, sigmatrix
+</span><span class="line">
+</span><span class="line">        if DEBUG:
+</span><span class="line">            for xxxxxxx in sigmatrix:
+</span><span class="line">                print xxxxxxx
+</span><span class="line">            print '=' * 30
+</span><span class="line">
+</span><span class="line">    return sigmatrix
+</span><span class="line">
+</span><span class="line">
+</span><span class="line">if __name__ == '__main__':
+</span><span class="line">    def hash1(x):
+</span><span class="line">        return (x + 1) % 5
+</span><span class="line">
+</span><span class="line">    def hash2(x):
+</span><span class="line">        return (3 * x + 1) % 5
+</span><span class="line">
+</span><span class="line">    data = [[1, 0, 0, 1],
+</span><span class="line">            [0, 0, 1, 0],
+</span><span class="line">            [0, 1, 0, 1],
+</span><span class="line">            [1, 0, 1, 1],
+</span><span class="line">            [0, 0, 1, 0]]
+</span><span class="line">
+</span><span class="line">    print minhash(data, [hash1, hash2])</span></code></pre></td></tr></table></div></figure></notextile></div>
 
-
-<h1>Locality-Sensitive Hashing</h1>
+<h1 id="locality-sensitive-hashing">Locality-Sensitive Hashing</h1>
 
 <p>在推荐系统中，通常需要的是与S1 n个最相似的，而不是所有的。<a href="http://en.wikipedia.org/wiki/Locality_sensitive_hashing">Locality-Sensitive Hashing</a>的提出就是为了过滤明显不相似的，以此来减少计算。</p>
 
 <p>假设向量的维度为n，将n维分为b份，称为bands，每份为n/b维。同时存在b个hash函数，每个bands对应一个hash函数，每个hash函数接受n/b个参数，产生一个数值，把相同数值的元素分为一组。</p>
 
 <p>对每个binds中的n/b维特征向量进行hash计算，比如对于{S1, S2, S3, S4}，3个binds而言，第一个binds可能产生的数据为{S1, S2}, {S3}, {S4}，第二个binds为{S1}, {S2, S4}, {S3}，第三个binds为{S1, S3}, {S2, S4}。则为了计算得到和S1最相似的n个，则只需要计算J(S1, S2), J(S1, S3)，这样达到了减少了计算的目的。</p>
+
 ]]></content>
   </entry>
   
@@ -410,13 +462,19 @@ h(S1) = a, h(S2) = c, h(S3) = b, h(S4) = a</p>
 <p>主要参考以下内容：</p>
 
 <ul>
-<li><p><a href="http://octopress.org/docs/">Octopress Documentation</a></p></li>
-<li><p><a href="http://code.dblock.org/octopress-setting-up-a-blog-and-contributing-to-an-existing-one">Octopress: Setting up a Blog and Contributing to an Existing One</a></p></li>
-<li><p><a href="https://github.com/echen/echen.github.com/blob/source/_config.yml">echen&#8217;s _config.yml</a></p></li>
+  <li>
+    <p><a href="http://octopress.org/docs/">Octopress Documentation</a></p>
+  </li>
+  <li>
+    <p><a href="http://code.dblock.org/octopress-setting-up-a-blog-and-contributing-to-an-existing-one">Octopress: Setting up a Blog and Contributing to an Existing One</a></p>
+  </li>
+  <li>
+    <p><a href="https://github.com/echen/echen.github.com/blob/source/_config.yml">echen’s _config.yml</a></p>
+  </li>
 </ul>
 
-
 <p>还是想写点技术文章。</p>
+
 ]]></content>
   </entry>
   

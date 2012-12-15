@@ -13,7 +13,9 @@ categories: [Algorithm, Recommender System]
 在推荐系统经常要做相似度计算，其中比较简单的一种是[Jaccard Similarity](http://en.wikipedia.org/wiki/Jaccard_index)。Jaccard Similarity描述如下：  
 设A,B为两个特征向量，比如为两个user投过票的电影，则  
 
-![jaccard](http://upload.wikimedia.org/math/1/8/6/186c7f4e83da32e889d606140fae25a0.png)
+$$
+J(A, B) = \frac{|A \cap B|}{|A \cup B|}
+$$
 
 J(A,B)的值介于0-1之间，数值越大，相似度越高。
 
@@ -57,6 +59,7 @@ h(S1) = a, h(S2) = c, h(S3) = b, h(S4) = a
 ![algo minhash](/images/blogpng/algo-minhash.png)
 
 Minhash的python实现：
+
 ```
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-

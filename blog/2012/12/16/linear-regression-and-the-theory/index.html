@@ -1,0 +1,568 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Linear Regression and the Theory - yangpeng's Blog</title>
+  <meta name="author" content="yp">
+
+  
+  <meta name="description" content="问题 简单来说，有一堆实数数据，数据的格式如下： x_1, x_2, x_3, \cdots, x_n, y 所有的这些数据称为训练集，其中$x$称为feature，$y$称为target。 现在又来了一个数据： x_1, x_2, x_3, \cdots, x_n 现在需要做的是根据这些$x$ &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://yangpengg.github.com/blog/2012/12/16/linear-regression-and-the-theory/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="yangpeng's Blog" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">yangpeng's Blog</a></h1>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:yangpengg.github.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Linear Regression and the Theory</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-12-16T22:30:00+08:00" pubdate data-updated="true">Dec 16<span>th</span>, 2012</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><h1 id="section">问题</h1>
+
+<p>简单来说，有一堆实数数据，数据的格式如下：</p>
+
+<script type="math/tex; mode=display">
+x_1, x_2, x_3, \cdots, x_n, y
+</script>
+
+<p>所有的这些数据称为训练集，其中$x$称为feature，$y$称为target。</p>
+
+<p>现在又来了一个数据：</p>
+
+<script type="math/tex; mode=display">
+x_1, x_2, x_3, \cdots, x_n
+</script>
+
+<p>现在需要做的是根据这些$x$的值，推测出$y$的值。</p>
+
+<p>对这个问题更详细的描述可以看<a href="http://v.163.com/movie/2008/1/B/O/M6SGF6VB4_M6SGHJ9BO.html">Stanford机器学习公开课</a>中相关描述。</p>
+
+<h1 id="section-1">解决方法</h1>
+
+<h2 id="overdetermined-equations">Overdetermined Equations</h2>
+
+<p>假设$y$是$x$的线性函数（顺便说一句lr中的linear是对于$\theta$而言的，并非针对$x$），表达为公式为：</p>
+
+<script type="math/tex; mode=display">
+y = \theta_0x_0 + \theta_1x_1 + \theta_2x_2 + \cdots + \theta_nx_n
+</script>
+
+<p>其中$x_0$为截距(intercept term)，其值恒为1。</p>
+
+<p>最容易想到的方法，可以把所有训练集的数据代入这个公式，得到方程组：</p>
+
+<script type="math/tex; mode=display">
+\begin{eqnarray} 
+\left\{ 
+\begin{array}{lll}
+y^{(1)} = \theta_0x_0^{(1)} + \theta_1x_1^{(1)} + \theta_2x_2^{(1)} + \cdots + \theta_nx_n^{(1)} \\
+y^{(2)} = \theta_0x_0^{(2)} + \theta_1x_1^{(2)} + \theta_2x_2^{(2)} + \cdots + \theta_nx_n^{(2)} \\
+\vdots \\
+y^{(m)} = \theta_0x_0^{(m)} + \theta_1x_1^{(m)} + \theta_2x_2^{(m)} + \cdots + \theta_nx_n^{(m)}
+\end{array} 
+\right. 
+\end{eqnarray}
+</script>
+
+<p>这个方程组有m个方程，n+1个未知数，实际问题中通常是训练集的个数大于feature个数，也就是说m &gt; n+1，这种情况下的方程组称为<a href="http://en.wikipedia.org/wiki/Overdetermined_system">超定方程组</a>，是不能直接求解的。当然可以像当年欧拉和拉普拉斯最初解决天文计算问题一样(<a href="http://www.52nlp.cn/%E6%AD%A3%E6%80%81%E5%88%86%E5%B8%83%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F%E4%BA%8C">here</a>)，把m个方程组分成n+1组，然后每一组合并成一个方程，得到n+1个方程后再求解。不过问题是怎么分成n+1组，这个很是adhoc的。</p>
+
+<h2 id="cost-function">Cost Function</h2>
+
+<p>机器学习上解决这个问题的方法是定义一个损失函数：</p>
+
+<script type="math/tex; mode=display">
+J(\theta) = \frac{1}{2}\sum_{i=1}^m(h_\theta(x^{(i)}) - y^{(i)})^2
+</script>
+
+<p>然后选择适当的$\theta$，使得$J(\theta)$最小。</p>
+
+<h2 id="gradient-descent">Gradient Descent</h2>
+
+<p>这个最小化的算法在机器学习中称为梯度下降：</p>
+
+<ul>
+  <li>随机初始化一组$\theta$值；</li>
+  <li>朝着减少cost function的方向，不断更新$\theta$值，直到收敛。更新公式为：</li>
+</ul>
+
+<script type="math/tex; mode=display">
+\theta_j := \theta_j - \alpha\frac{\partial J(\theta)}{\partial \theta_j}
+</script>
+
+<p>其中$\alpha$为学习速率(learning rate)。</p>
+
+<h2 id="gradient-descent-1">Gradient Descent推导</h2>
+
+<p>假设训练集中只有一个数据，$\frac{\partial J(\theta)}{\partial \theta_j}$计算如下：</p>
+
+<script type="math/tex; mode=display">% <![CDATA[
+
+\begin{align*}
+\frac{\partial J(\theta)}{\partial \theta_j} &= \frac{\partial{(\frac{1}{2}(h_\theta(x) - y)^2)}}{\partial \theta_j} \\
+&= 2 * \frac{1}{2}(h_\theta(x) - y) * \frac{\partial{(h_\theta(x) - y)}}{\partial \theta_j} \\
+&= (h_\theta(x) - y) * \frac{\partial(h_\theta(x) - y)}{\partial \theta_j} \\
+&= (h_\theta(x) - y) * \frac{\partial(\sum_{i=0}^n\theta_ix_i - y)}{\partial \theta_j} \\
+&= (h_\theta(x) - y)x_j
+\end{align*}
+ %]]></script>
+
+<p>代入更新公式：</p>
+
+<script type="math/tex; mode=display">% <![CDATA[
+
+\begin{align*}
+\theta_j &= \theta_j - \alpha(h_\theta(x) - y)x_j \\
+&= \theta_j + \alpha(y - h_\theta(x))x_j
+\end{align*}
+ %]]></script>
+
+<p>对于有m个数据集的情况可以得到如下公式：</p>
+
+<script type="math/tex; mode=display">
+\begin{align*}
+\theta_j := \theta_j + \alpha\sum_{i=1}^m(y^{(i)} - h_\theta(x^{(i)}))x_j^{(i)}
+\end{align*}
+</script>
+
+<h2 id="gradient-descent-2">Gradient Descent直观解释</h2>
+
+<p>$J(\theta)$是一个关于$\theta$的多元函数，高等数学的知识说，$J(\theta)$在点<script type="math/tex">P(\theta_0, \theta_1, \cdots, \theta_n)</script>延梯度方向上升最快。现在要最小化 $J(\theta)$，为了让$J(\theta)$尽快收敛，就在更新$\theta$时减去其在P点的梯度。</p>
+
+<p>在最终推导出的更新公式中，可以得出以下直观结论：如果遇到一个数据使得$(y - h_\theta(x))$比较小，这时候$\theta$的更新也会很小，这也符合直观感觉。当一个数据使得差值比较大时，$\theta$的更新也会比较大。</p>
+
+<h2 id="stochastic-gradient-descent">Stochastic Gradient Descent</h2>
+
+<p>以上的讨论的算法叫batch gradient descent，batch指的是，每次更新$\theta$的时候都需要所有的数据集。这个算法有两个缺陷：</p>
+
+<ul>
+  <li>数据集很大时，训练过程计算量太大；</li>
+  <li>需要得到所有的数据才能开始训练；</li>
+</ul>
+
+<p>比如一个场景下，我们训练了一个lr模型，应用于线上环境，当这个模型跑在线上的时候我们会收集更多的数据。但是上面两个问题使得我们不能及时更新模型，而这正是随机梯度下降要解决的问题。</p>
+
+<p>在之前的推导过程中已经给出了sgd的更新公式，只是没有指出，现正式提出sgd的更新公式：</p>
+
+<p>loop for every (x, y) in training set until convergence:</p>
+
+<script type="math/tex; mode=display">
+\theta_j := \theta_j + \alpha(y - h_\theta(x))x_j
+</script>
+
+<p>与bgd唯一的区别是，无论数据集有多少，每次迭代都只用一个数据。这样当有新的数据时，直接通过上式更新$\theta$，这就是所谓的online learning。又因为每次更新都只用到一个数据，所以可以显著减少计算量。</p>
+
+<h1 id="sgdpython">sgd的Python实现</h1>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+<span class="line-number">18</span>
+<span class="line-number">19</span>
+<span class="line-number">20</span>
+<span class="line-number">21</span>
+<span class="line-number">22</span>
+<span class="line-number">23</span>
+<span class="line-number">24</span>
+<span class="line-number">25</span>
+<span class="line-number">26</span>
+<span class="line-number">27</span>
+<span class="line-number">28</span>
+<span class="line-number">29</span>
+<span class="line-number">30</span>
+<span class="line-number">31</span>
+<span class="line-number">32</span>
+<span class="line-number">33</span>
+<span class="line-number">34</span>
+<span class="line-number">35</span>
+<span class="line-number">36</span>
+<span class="line-number">37</span>
+<span class="line-number">38</span>
+<span class="line-number">39</span>
+<span class="line-number">40</span>
+<span class="line-number">41</span>
+<span class="line-number">42</span>
+<span class="line-number">43</span>
+<span class="line-number">44</span>
+<span class="line-number">45</span>
+<span class="line-number">46</span>
+<span class="line-number">47</span>
+<span class="line-number">48</span>
+<span class="line-number">49</span>
+<span class="line-number">50</span>
+<span class="line-number">51</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">#!/usr/bin/env python
+</span><span class="line"># -*- coding: utf-8 -*-
+</span><span class="line">
+</span><span class="line">import re
+</span><span class="line">import numpy as np
+</span><span class="line">                                                                       
+</span><span class="line">                                                                       
+</span><span class="line">def load_data(filename):                                                
+</span><span class="line">    feature = []                                                        
+</span><span class="line">    target = []                                                        
+</span><span class="line">    f = open(filename, 'rb')                                            
+</span><span class="line">    for line in f.readlines():                                          
+</span><span class="line">        sample = re.split(' +', line.strip())                          
+</span><span class="line">        feature.append([1, ] + sample[0:-1])                             
+</span><span class="line">        target.append(sample[-1])                                      
+</span><span class="line">                                                                       
+</span><span class="line">    return np.array(feature, np.float), np.array(target, np.float)       
+</span><span class="line">                                                                       
+</span><span class="line">                                                                       
+</span><span class="line">def sgd(feature, target, iter=200, step=0.001):                       
+</span><span class="line">    theta = np.zeros(feature.shape[1])                                  
+</span><span class="line">    # theta = np.ones(feature.shape[1])                                
+</span><span class="line">                                                                       
+</span><span class="line">    for it in range(iter):                                              
+</span><span class="line">        for i in range(feature.shape[0]):                             
+</span><span class="line">            error = target[i] - sum(theta * feature[i])                
+</span><span class="line">            theta = theta + step * error * feature[i]                  
+</span><span class="line">                                                                       
+</span><span class="line">        predict = [sum(theta * sample) for sample in feature]            
+</span><span class="line">        mse = sum((target - predict) ** 2) / feature.shape[0]            
+</span><span class="line">        print it, 'mse:', mse
+</span><span class="line">                                                                       
+</span><span class="line">    return theta                                                        
+</span><span class="line">                                                                       
+</span><span class="line">                                                                       
+</span><span class="line">def normalize(feature):                                                
+</span><span class="line">    mu = feature.mean(0)                                                
+</span><span class="line">    std = feature.std(0)                                                
+</span><span class="line">                                                                       
+</span><span class="line">    for j in range(1, feature.shape[1]):                                
+</span><span class="line">        feature[:, j] = (feature[:, j] - mu[j]) / std[j]                 
+</span><span class="line">                                                                       
+</span><span class="line">    return feature, mu, std                                            
+</span><span class="line">                                                                       
+</span><span class="line">                                                                       
+</span><span class="line">if __name__ == '__main__':                                              
+</span><span class="line">    datafile = 'housing_data'
+</span><span class="line">    x, y = load_data(datafile)
+</span><span class="line">    x, mu, std = normalize(x)
+</span><span class="line">    theta = sgd(x, y)
+</span><span class="line">    print theta</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>代码中使用的数据集可以从<a href="http://amachinelearningtutorial.googlecode.com/files/housing_data">这里</a>下载，描述在<a href="http://amachinelearningtutorial.googlecode.com/files/housing_description">这里</a>。</p>
+
+<p>代码中normalize函数用于对feature进行归一化处理，可以尝试一下去掉normalize过程，对于这个数据集会得出很出乎意料的结果。</p>
+
+<h1 id="section-2">概率解释</h1>
+
+<p>在以上的讨论中，得出$y$与$x$的关系是线性假设，使用梯度下降也可以从高数中得到依据，唯有损失函数好像是拍脑袋想出来的。有那么多的函数可以用，为什么单选择了一个二次式做为损失函数。其实这里选择二次函数是有其理论基础的。</p>
+
+<p>$y$与$x$满足以下公式：</p>
+
+<script type="math/tex; mode=display">
+y^{(i)} = \theta^{T}x^{(i)} + \varepsilon^{(i)}
+</script>
+
+<p>其中$\varepsilon^{(i)}$称为误差，可能由两个原因产生：</p>
+
+<ul>
+  <li>feature选择的不合适；</li>
+  <li>随机噪声；</li>
+</ul>
+
+<p>又假设$\varepsilon^{(i)}$独立同分布，且满足均值为0，方差为$\sigma^2$的高斯分布，即：</p>
+
+<script type="math/tex; mode=display">
+p(\varepsilon^{(i)}) = \frac{1}{\sqrt{2\pi}\sigma}e^{-\frac{(\varepsilon^{(i)})^2}{2\sigma^2}}
+</script>
+
+<p>也就是：</p>
+
+<script type="math/tex; mode=display">
+p(y^{(i)} | x^{(i)}; \theta) = \frac{1}{\sqrt{2\pi}\sigma}e^{-\frac{(y^{(i)} - \theta^Tx^{(i)})^2}{2\sigma^2}}
+</script>
+
+<p>以上是一个关于$y$, $X$的公式，可以定义一个似然函数，形式如同上式，但是似然函数是关于$\theta$的公式：</p>
+
+<script type="math/tex; mode=display">
+L(\theta) = L(\theta; X,y) = p(y|X; \theta)
+</script>
+
+<p>根据之前$\varepsilon^{(i)}$的独立性假设，$L(\theta)$可以记做</p>
+
+<script type="math/tex; mode=display">% <![CDATA[
+
+\begin{align*}
+L(\theta) &= \prod_{i=1}^m{p(y^{(i)} | x^{(i)}; \theta)} \\
+&= \prod_{i=1}^m \frac{1}{\sqrt{2\pi}\sigma}e^{-\frac{(y^{(i)} - \theta^Tx^{(i)})^2}{2\sigma^2}}
+\end{align*}
+ %]]></script>
+
+<p>现在已经观察到了很多数据($x$, $y$)，那么什么样的模型才能让这些数据出现的可能性最大。这就是最大似然估计的出发点，也就是求解$\theta$以最大化这些数据出现的概率，即最大化似然函数$L(\theta)$。</p>
+
+<p>关于最大似然估计方法更多解释可以看<a href="http://www.cchere.com/article/1522559">这里</a>。</p>
+
+<p>当然更多时候最大化的是$logL(\theta)$，而不是直接最大化$L(\theta)$，因为log函数单调递增函数，所以这个转化不会影响$\theta$的最终取值。</p>
+
+<script type="math/tex; mode=display">% <![CDATA[
+
+\begin{align*}
+l(\theta) &= logL(\theta) \\
+&= log\prod_{i=1}^m \frac{1}{\sqrt{2\pi}\sigma}e^{-\frac{(y^{(i)} - \theta^Tx^{(i)})^2}{2\sigma^2}} \\
+&= \sum_{i=1}^m log \frac{1}{\sqrt{2\pi}\sigma}e^{-\frac{(y^{(i)} - \theta^Tx^{(i)})^2}{2\sigma^2}} \\
+&= mlog\frac{1}{\sqrt{2\pi}\sigma} - \frac{1}{\sigma^2}\frac{1}{2}\sum_{i=1}^m(y^{(i)} - \theta^Tx^{(i)})^2
+\end{align*}
+ %]]></script>
+
+<p>因此最大化$l(\theta)$也就是最小化：</p>
+
+<script type="math/tex; mode=display">
+\frac{1}{2}\sum_{i=1}^m(y^{(i)} - \theta^Tx^{(i)})^2
+</script>
+
+<p>也就是之前出现的$J(\theta)$。</p>
+
+<p>至此，我们从概率和最大似然估计的角度解释了$J(\theta)$为什么选择这个二次式是合理的。</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">yp</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-12-16T22:30:00+08:00" pubdate data-updated="true">Dec 16<span>th</span>, 2012</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/machine-learning/'>Machine Learning</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://yangpengg.github.com/blog/2012/12/16/linear-regression-and-the-theory/" data-via="yangpengg" data-counturl="http://yangpengg.github.com/blog/2012/12/16/linear-regression-and-the-theory/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2012/12/15/mathjax-test/" title="Previous Post: MathJax Test">&laquo; MathJax Test</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Yang Peng</h1>
+  
+  <p>I like machine learning, recommender system and nlp.</p>
+
+  <p>Email: hermitinhistory[at]gmail.com<br/>
+  Twitter: <a href="https://twitter.com/#!/yangpengg">@yangpengg</a><br/>
+</section>
+<section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2012/12/16/linear-regression-and-the-theory/">Linear Regression and the Theory</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/12/15/mathjax-test/">MathJax Test</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/12/13/decode-and-encode-in-python/">Decode and Encode in Python</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/11/02/view-transition-follow-finger/">View Transition follow Finger</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/09/05/minhash-and-lsh/">Minhash and LSH</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/08/21/octopress-setup/">Octopress Setup</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>Latest Tweets</h1>
+  <ul id="tweets">
+    <li class="loading">Status updating...</li>
+  </ul>
+  <script type="text/javascript">
+    $.domReady(function(){
+      getTwitterFeed("yangpengg", 4, false);
+    });
+  </script>
+  <script src="/javascripts/twitter.js" type="text/javascript"> </script>
+  
+    <a href="http://twitter.com/yangpengg" class="twitter-follow-button" data-show-count="true">Follow @yangpengg</a>
+  
+</section>
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2012 - yp -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>
+
+
+<!-- mathjax config similar to math.stackexchange -->
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  jax: ["input/TeX", "output/HTML-CSS"],
+  tex2jax: {
+    inlineMath: [ ['$', '$'] ],
+    displayMath: [ ['$$', '$$']],
+    processEscapes: true,
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+  },
+  messageStyle: "none",
+  "HTML-CSS": { preferredFont: "TeX", availableFonts: ["STIX","TeX"] }
+});
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML" type="text/javascript"></script>

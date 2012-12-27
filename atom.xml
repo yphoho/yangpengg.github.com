@@ -4,7 +4,7 @@
   <title><![CDATA[yangpeng's Blog]]></title>
   <link href="http://yangpengg.github.com/atom.xml" rel="self"/>
   <link href="http://yangpengg.github.com/"/>
-  <updated>2012-12-20T17:32:52+08:00</updated>
+  <updated>2012-12-27T10:23:16+08:00</updated>
   <id>http://yangpengg.github.com/</id>
   <author>
     <name><![CDATA[yp]]></name>
@@ -330,7 +330,7 @@ l(\theta) &= logL(\theta) \\
 
 <p>也就是之前出现的$J(\theta)$。</p>
 
-<p>至此，我们从概率和最大似然估计的角度解释了$J(\theta)$为什么选择这个二次式是合理的。</p>
+<p>至此，我们从概率和最大似然估计的角度解释了$J(\theta)$选择这个二次式是合理的。</p>
 ]]></content>
   </entry>
   

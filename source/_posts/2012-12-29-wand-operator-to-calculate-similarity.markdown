@@ -1,0 +1,214 @@
+---
+layout: post
+title: "WAND Operator to Calculate Similarity"
+date: 2012-12-29 10:44
+comments: true
+categories: [Algorithm, Information Retrieval]
+---
+
+本文主要内容来自论文 _Efficient Query Evaluation using a Two-Level Retrieval Process_ 。论文全文可以在[这里](http://www.cis.upenn.edu/~jstoy/cis650/papers/WAND.pdf)下载。
+
+WAND全称Weak AND或者Weighted AND，主要用于计算文档之间的相似度。
+
+在进入正题之前，先给出一条微博中提到的[性能对比](http://weibo.com/1751942113/zbGSlsXFw)，不保证数据的权威性，仅仅提供一个大致参考。
+
+
+# IR中与文档相似度相关的几个概念
+
+## [倒排索引](http://en.wikipedia.org/wiki/Inverted_index)
+在[向量空间模型](http://en.wikipedia.org/wiki/Vector_space_model)中一篇文档(document)通常会表示为词(term)的向量，比如这样的三个文档:
+
+* $d_1$: I love you.
+* $d_2$: I hate you.
+* $d_3$: I miss you.
+
+表示为： $d\_1$ = [1, 1, 0, 0, 1], $d\_2$ = [1, 0, 1, 0, 1], $d\_3$ = [1, 0, 0, 1, 1]。 向量位置依次表示[I, love, hate, miss, you]，其中1表示在文档中出现，0表示没有出现。
+
+上面是文档表示，其相应的倒排索引可以表示为：
+
+* I: [1, 2, 3]
+* love: [1]
+* hate: [2]
+* miss: [3]
+* you: [1, 2, 3]
+
+当然在索引中除了可以出现文档信息，还可以添加其它信息，比如这个term在此文档中出现的次数。文档会有一个唯一的id号，称为DID，在倒排索引中文档通常是按照DID的增序排列。
+
+## posting 和 posting list
+
+在倒排索引中以冒号作为分割可以分为两部分，第一部分称为字典(dictionary)，第二部分称为posting(也称为posting list)。所有的posting合在一起称为postings(或者posting lists)。
+
+## tf-idf
+
+这个概念有点复杂，可以直接看[wikipedia](http://en.wikipedia.org/wiki/Tf%E2%80%93idf)和吴军博士数学之美中的[相关解释](http://googlechinablog.blogspot.com/2006/06/blog-post_3066.html)。
+
+
+# 两段评估
+
+通常完全评估两篇文档的相似度计算量很大，为了减少计算，可以在完全评估之前引入另一个比较廉价的计算(本文称之为预计算)，并且设置一个threshold，只有当这个廉价的计算结果大于threshold的时候才进行费时的完全计算。
+
+WAND算法正是采用了这种想法，而且WAND算法在预计算时也进行了优化，使得其在性能上有很大的提升。
+
+## WAND定义
+
+$$
+WAND(X_1, w_1, X_2, w_2, \cdots, X_n, w_n, \theta) = \sum_{i=1}^nx_iw_i \geq \theta
+$$
+
+其中$X_1$为布尔值，$w_i$为权重，$x_i$称为[indicator function](http://en.wikipedia.org/wiki/Indicator_function)，定义为
+
+$$
+x_i = \{_{0, \ otherwise}^{1, \ if \ X_i \ is \ true}
+$$
+
+整个WAND操作的结果也是一个布尔值。
+
+有趣的是，我们可以用WAND操作定义AND和OR：
+
+$$
+AND(X_1, X_2, \cdots, X_k) \equiv WAND(X_1, 1, X_2, 1, \cdots, X_k, 1, k) \\
+OR(X_1, X_2, \cdots, X_k) \equiv WAND(X_1, 1, X_2, 1, \cdots, X_k, 1, 1)
+$$
+
+## 评估函数
+
+这里定义的评估函数是一个累加模型(additive scoring model)，也就是说，两个文档的相似程度是由所有的词作出的贡献的和：
+
+$$
+Score(d_a, d_b) = \sum_{t\in d_a\cap d_b}\alpha_t w(t, d_b)
+$$
+
+这里我们固定$d_a$，而把$d_b$作为变量，也就是求所有的文档与$d_a$的相似度。
+
+同时注意到一点，这个公式是不对称的，也就是说$d_a, d_b$的相似度，与
+$d_b, d_a$的相似度并不相同。
+
+对于以上的Score函数，论文大致解释如下：
+
+> For example, for the tf × idf scoring model used by many IR systems, $\alpha_t$ is a function of the number of occurrences of $t$ in the $d_a$, multiplied by the inverse document frequency (idf) of $t$ in the index and $w(t,d_b)$ is a function of the term frequency (tf) of $t$ in $d_b$, divided by the document length $\|d_b\|$.
+
+从wikipedia中看到关于tf的定义是不确定的，从上文推断，这里的tf应该指的是raw frequency，也就是一个词t在文档d的出现的次数(tf(t,d))。这里的index应该指所有的文档(corpus)。
+
+如果这样理解，上边一段话用数学公式表示为：
+
+$$
+\alpha_t = tf(t, d_a) * idf(t) \\
+w(t,d_b) = \frac{tf(t, d_b)}{\|d_b\|}
+$$
+
+上面提到公式不对称，主要就是差在一个文档长度上，如果求$Score(d_a, d_b)$则分母是$\|d_b\|$，如果求Score(d_b, d_a)分母为$\|d_a\|$。如果定义Score为再除以一个$\|d_a\|$使得公式对称，这样也没有问题，但是通常情况下我们需要的是$d_a$最相似的n个文档，相似度计算中是否除以$\|d_a\|$并不会影响相似文档的排名。
+
+
+## 预计算公式
+
+对于每个词，可以定义一个上界(upper bound)：
+
+$$
+UB_t \geq \alpha_t max(w(t, d_1), w(t, d_2), \cdots)
+$$
+
+由上式以及之前的累加模型假设，文档相似度的上界为：
+
+$$
+UB(d_a, d_b) = \sum_{t \in d_a \cap d_b}UB_t
+$$
+
+明显可以得到以下结论：
+
+$$
+UB(d_a, d_b) \geq Score(d_a, d_b)
+$$
+
+有了以上的结论，再结合之前定义的WAND操作，可以定义一个计算复杂度比较低的公式：
+
+$$
+WAND(X_1, UB_1, X_2, UB_2, \cdots, X_n, UB_n, \theta)
+$$
+
+其中$X_i$是indicator变量，$t_i$为$d_a$中出现的词，当$t_i$出现在$d_b$中时$X_i = 1$，否则$X_i = 0$。
+
+## 相似度计算
+
+定义上边的公式之后，计算两个文档$d_a, d_b$的相似度成为以下两个过程：
+
+1. 取$d_a$所有词$t_i$以及相应的$UB_i$，当$t_i$出现在$d_b$时，取$X_i = 1$，否则取$X_i = 0$，将$X_i, UB_i$代入以上公式求解；
+2. 当1中求解结果为true时，计算$Score(d_a, d_b)$，否则不做任何事情；
+
+
+## 求解top-n相似文档
+
+如果按照之前的提到方法计算$d_a$的n个最相似文档，就要取出所有的文档，每个文档作预计算，比较threshold，然后决定是否在top-n之列。这样计算当然可行，但是还是可以优化的。优化的出发点就是尽量减少预计算，论文中提到的算法如下：
+
+1. 提取出$d_a$中所有的词，以及这些词的倒排索引；
+2. 初始化curDoc=0；
+3. 初始化posting数组，使得posting[t]为词t倒排索引中第一个文档；
+
+可以定义一个next函数，用于查找下一个进行完全计算的文档，论文中对next描述如下：
+
+```
+Function next(θ)
+  repeat
+    /* Sort the terms in non decreasing order of DID */
+    sort(terms, posting)
+    /* Find pivot term - the first one with accumulated UB ≥ θ */
+    pTerm ← findPivotTerm(terms, θ)
+    if (pTerm = null) return (NoMoreDocs)
+    pivot ← posting[pTerm].DID
+    if (pivot = lastID) return (NoMoreDocs)
+    if (pivot ≤ curDoc)
+      /* pivot has already been considered, advance one of the preceding terms */
+      aterm ← pickTerm(terms[0..pTerm])
+      posting[aterm] ← aterm.iterator.next(curDoc+1)
+    else /* pivot > curDoc */
+      if (posting[0].DID = pivot)
+        /* Success, all terms preceding pTerm belong to the pivot */
+        curDoc ← pivot
+        return (curDoc, posting)
+      else
+        /* not enough mass yet on pivot, advance one of the preceding terms */
+        aterm ← pickTerm(terms[0..pTerm])
+        posting[aterm] ← aterm.iterator.next(pivot)
+  end repeat
+```
+
+其中用到了几个函数，解释如下：
+
+### aterm.iterator.next(n)
+
+这个函数返回aterm倒排索引中的DID，这个DID要满足DID >= n。
+
+### sort(terms, posting)
+
+sort是把terms按照posting当前指向的DID的非递减排序。比如$d_a$所有词的倒排索引为：
+
+* $t_0$: [1, 3, 26]
+* $t_1$: [1, 2, 4, 10, 100]
+* $t_2$: [2, 3, 6, 34, 56]
+* $t_3$: [1, 4, 5, 23, 70, 200]
+* $t_4$: [5, 14, 78]
+
+当前posting数组为：[2, 2, 0, 3, 0]
+
+根据以上两条信息，可以得到：{$t\_0$ : 26, $t\_1$ : 4, $t\_2$ : 2, $t\_3$ : 23, $t\_4$ : 5}
+
+则排序后的结果为[$t\_2$, $t\_1$, $t\_4$, $t\_3$, $t\_0$]
+
+### findPivotTerm(terms, θ)
+
+按照之前得到的排序，返回第一个上界累加和$\geq \theta$的term。
+
+引入以下数据：[$UB\_0$, $UB\_1$, $UB\_2$, $UB\_3$, $UB\_4$] = [0, 1, 2, 3, 4], $\theta$ = 8
+
+因为(2 + 1 + 4) = 7 < 8 而 (2 + 1 + 4 + 3) = 10 > 8，所以此函数返回$t\_3$
+
+### pickTerm(terms[0..pTerm])
+
+在0到pTerm(不包含pTerm)中选择一个term。
+
+还是用之前的数据，则是在\[$t\_2$, $t\_1$, $t\_4$\](没有$t\_3$)中选择一个term返回。
+
+关于选择策略，当然是以可以跳过最多的文档为指导，论文中选择了idf最大的term。
+
+解释了以上几个函数之后，理解上边的伪码应该没有问题。至于要理解为什么这样不会错过相似度大的文档，就需要自己动一翻脑子。可以参考论文中的解释，不过说起来比较啰嗦，这里就不证明了。
+
+最后要提到的一点是，在sort函数中是没有必要完全排序的，因为每一次循环都只是改变了posting中的一条数据，只要把这个数据排好序就可以了。

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Category: Python | yangpeng's Blog]]></title>
-  <link href="http://yangpengg.github.com/blog/categories/python/atom.xml" rel="self"/>
+  <title><![CDATA[Category: Programming | yangpeng's Blog]]></title>
+  <link href="http://yangpengg.github.com/blog/categories/programming/atom.xml" rel="self"/>
   <link href="http://yangpengg.github.com/"/>
   <updated>2013-01-09T14:33:15+08:00</updated>
   <id>http://yangpengg.github.com/</id>
@@ -177,6 +177,20 @@ import codecs</p>
   <li>怎么进，怎么出，尽量不涉及编码问题；</li>
   <li>json模块是个意外，经过json的所有字符都会解码成Unicode；</li>
 </ul>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[View Transition follow Finger]]></title>
+    <link href="http://yangpengg.github.com/blog/2012/11/02/view-transition-follow-finger/"/>
+    <updated>2012-11-02T11:11:00+08:00</updated>
+    <id>http://yangpengg.github.com/blog/2012/11/02/view-transition-follow-finger</id>
+    <content type="html"><![CDATA[<p>I use <a href="http://getprismatic.com/">Prismatic</a> as my main reading tool on iphone. I find the view transition of the app is very intresting(you can have a try <a href="https://itunes.apple.com/us/app/prismatic-always-interesting/id551206444?mt=8">here</a>), that i want to know how it does. By google, i find a <a href="http://iappexperience.com/post/23551184719/chromeless">blog</a> and you can get the <a href="https://github.com/dyang/DYNavigationController">source code</a>. With the demo you can swipe the ui to transition, but can’t let the transition follows your finger. So i decide to write a demo myself.</p>
+
+<p>I put my code on <a href="https://github.com/hermitinhistory/FollowFinger">github</a>, and you can get the most explanation from the blog above.</p>
+
+<p>Finally, big thanks to the author of the blog.</p>
+
 ]]></content>
   </entry>
   

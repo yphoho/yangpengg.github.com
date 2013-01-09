@@ -3,7 +3,7 @@ layout: post
 title: "MathJax Test"
 date: 2012-12-15 23:12
 comments: true
-categories: [MathJax]
+categories: [Octopress, MathJax]
 ---
 
 # Instruction

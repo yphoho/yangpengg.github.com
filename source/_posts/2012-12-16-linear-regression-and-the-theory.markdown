@@ -3,7 +3,7 @@ layout: post
 title: "Linear Regression and the Theory"
 date: 2012-12-16 22:30
 comments: true
-categories: [Machine Learning]
+categories: [Algorithm, Machine Learning]
 ---
 
 # 问题

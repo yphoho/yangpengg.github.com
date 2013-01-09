@@ -3,7 +3,7 @@ layout: post
 title: "Octopress Setup"
 date: 2012-08-21 16:02
 comments: true
-categories: 
+categories: [Octopress]
 ---
 
 本来没有写过blog，4月份弄了个vps，顺便在上边搭了个wordpress，原打算是要写些技术类的文章，但是一直也没有这个习惯，所以到现在那上边也只有一篇。现在想把blog放到github上，正好也改用Octopress。

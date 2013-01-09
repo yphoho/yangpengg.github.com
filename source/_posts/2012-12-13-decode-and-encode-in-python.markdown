@@ -3,7 +3,7 @@ layout: post
 title: "Decode and Encode in Python"
 date: 2012-12-13 15:09
 comments: true
-categories: Python
+categories: [Programming, Python]
 ---
 
 本文主要针对2.7.x版本，对3.x版本可能不适用。

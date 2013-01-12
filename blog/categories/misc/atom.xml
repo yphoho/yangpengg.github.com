@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Misc | yangpeng's Blog]]></title>
+  <link href="http://yangpengg.github.com/blog/categories/misc/atom.xml" rel="self"/>
+  <link href="http://yangpengg.github.com/"/>
+  <updated>2013-01-13T00:44:28+08:00</updated>
+  <id>http://yangpengg.github.com/</id>
+  <author>
+    <name><![CDATA[yp]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Life is short]]></title>
+    <link href="http://yangpengg.github.com/blog/2013/01/13/life-is-short/"/>
+    <updated>2013-01-13T00:31:00+08:00</updated>
+    <id>http://yangpengg.github.com/blog/2013/01/13/life-is-short</id>
+    <content type="html"><![CDATA[<p><em>Aaron H. Swartz</em> committed suicide on <a href="http://tech.mit.edu/V132/N61/swartz.html">January 11, 2013</a> in New York City. Swartz was 26.</p>
+
+<p>R.I.P, Aaron Swartz.</p>
+
+<p>这是斯人的<a href="http://en.wikipedia.org/wiki/Aaron_Swartz">wikipedia页面</a>。这是 @Fenng 写的一篇<a href="http://dbanotes.net/geek/aaron-swartz_smells-like-teen-spirit.html">文章</a>。</p>
+
+<h2 id="section">斯人主要生平：</h2>
+
+<ol>
+  <li>14岁参与制定了RSS 1.0的标准；</li>
+  <li><a href="http://www.reddit.com/">Reddit</a>的联合创始人之一；</li>
+  <li>Stanford大学一年级缀学创业，离开学校的原因是，”I didn’t find it a very intellectual atmosphere, since most of the other kids seemed profoundly unconcerned with their studies”；</li>
+  <li>web开源框架web.py的作者；</li>
+  <li>Markdown的设计者之一；</li>
+  <li>2011年7月因为大量下载JSTOR的论文被起诉；</li>
+</ol>
+
+<h2 id="section-1">数字时代罗宾汉</h2>
+
+<p>我开始注意到这个世界上有这么一天才是因为去年的JSTOR事件，关于这件事及我对此事的态度可以看 @ruanyf 的<a href="http://www.ruanyifeng.com/blog/2011/08/copyright_of_academic_papers.html">文章</a>。</p>
+
+<p>今天下午浏览weibo的时候，又看到这个熟悉的名字，但是看到内容的时候心里不舒服了很长时间。我与彼人素不相识，只是佩服他所做所为。</p>
+
+<h2 id="section-2">斯人斯文</h2>
+
+<p>斯人blog地址：<a href="http://www.aaronsw.com/weblog/">http://www.aaronsw.com/weblog/</a>。</p>
+
+<p>斯人很有名的一篇blog叫：<a href="http://www.aaronsw.com/weblog/productivity">HOWTO: Be more productive</a>，中文见这里：<a href="http://www.mifengtd.cn/articles/how-to-be-productive-aaron-swartz.html">如何提高效率</a>。本文标题取自这篇文章中的一句话。</p>
+
+<h2 id="section-3">最后</h2>
+
+<p>感谢 <em>Aaron Swartz</em> 为互联网做出的巨大贡献！</p>
+
+<p>R.I.P</p>
+]]></content>
+  </entry>
+  
+</feed>

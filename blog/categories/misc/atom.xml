@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Misc | yangpeng's Blog]]></title>
   <link href="http://yangpengg.github.com/blog/categories/misc/atom.xml" rel="self"/>
   <link href="http://yangpengg.github.com/"/>
-  <updated>2013-01-13T00:44:28+08:00</updated>
+  <updated>2013-01-13T01:01:02+08:00</updated>
   <id>http://yangpengg.github.com/</id>
   <author>
     <name><![CDATA[yp]]></name>
@@ -29,7 +29,14 @@
 <ol>
   <li>14岁参与制定了RSS 1.0的标准；</li>
   <li><a href="http://www.reddit.com/">Reddit</a>的联合创始人之一；</li>
-  <li>Stanford大学一年级缀学创业，离开学校的原因是，”I didn’t find it a very intellectual atmosphere, since most of the other kids seemed profoundly unconcerned with their studies”；</li>
+  <li>Stanford大学一年级缀学创业，离开学校的原因是：</li>
+</ol>
+
+<blockquote>
+  <p>I didn’t find it a very intellectual atmosphere, since most of the other kids seemed profoundly unconcerned with their studies.</p>
+</blockquote>
+
+<ol>
   <li>web开源框架web.py的作者；</li>
   <li>Markdown的设计者之一；</li>
   <li>2011年7月因为大量下载JSTOR的论文被起诉；</li>

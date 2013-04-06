@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Information Retrieval | yangpeng's Blog]]></title>
   <link href="http://yangpengg.github.com/blog/categories/information-retrieval/atom.xml" rel="self"/>
   <link href="http://yangpengg.github.com/"/>
-  <updated>2013-01-13T01:06:57+08:00</updated>
+  <updated>2013-04-06T23:15:02+08:00</updated>
   <id>http://yangpengg.github.com/</id>
   <author>
     <name><![CDATA[yp]]></name>
@@ -112,7 +112,7 @@ $d_b, d_a$的相似度并不相同。</p>
 w(t,d_b) = \frac{tf(t, d_b)}{\|d_b\|}
 </script>
 
-<p>上面提到公式不对称，主要就是差在一个文档长度上，如果求$Score(d_a, d_b)$则分母是$|d_b|$，如果求Score(d_b, d_a)分母为$|d_a|$。如果定义Score为再除以一个$|d_a|$使得公式对称，这样也没有问题，但是通常情况下我们需要的是$d_a$最相似的n个文档，相似度计算中是否除以$|d_a|$并不会影响相似文档的排名。</p>
+<p>上面提到公式不对称，主要就是差在一个文档长度上，如果求$Score(d_a, d_b)$则分母是$|d_b|$，如果求$Score(d_b, d_a)$分母为$|d_a|$。如果定义Score为再除以一个$|d_a|$使得公式对称，这样也没有问题，但是通常情况下我们需要的是与$d_a$最相似的n个文档，相似度计算中是否除以$|d_a|$并不会影响相似文档的排名。</p>
 
 <h2 id="section-2">预计算公式</h2>
 

@@ -2,44 +2,48 @@
 <urlset xmlns='http://www.sitemaps.org/schemas/sitemap/0.9'>
     <url>
         <loc>http://yangpengg.github.com/blog/2012/08/21/octopress-setup/</loc>
-        <lastmod>2013-01-09T14:23:06+08:00</lastmod>
+        <lastmod>2013-04-06T23:24:58+08:00</lastmod>
     </url>
     <url>
         <loc>http://yangpengg.github.com/blog/2012/09/05/minhash-and-lsh/</loc>
-        <lastmod>2012-12-16T00:56:22+08:00</lastmod>
+        <lastmod>2013-04-06T23:24:58+08:00</lastmod>
     </url>
     <url>
         <loc>http://yangpengg.github.com/blog/2012/11/02/view-transition-follow-finger/</loc>
-        <lastmod>2013-01-09T14:27:07+08:00</lastmod>
+        <lastmod>2013-04-06T23:24:58+08:00</lastmod>
     </url>
     <url>
         <loc>http://yangpengg.github.com/blog/2012/12/13/decode-and-encode-in-python/</loc>
-        <lastmod>2013-01-09T14:25:35+08:00</lastmod>
+        <lastmod>2013-04-06T23:24:58+08:00</lastmod>
     </url>
     <url>
         <loc>http://yangpengg.github.com/blog/2012/12/15/mathjax-test/</loc>
-        <lastmod>2013-01-09T14:25:57+08:00</lastmod>
+        <lastmod>2013-04-06T23:24:58+08:00</lastmod>
     </url>
     <url>
         <loc>http://yangpengg.github.com/blog/2012/12/16/linear-regression-and-the-theory/</loc>
-        <lastmod>2013-01-09T14:26:38+08:00</lastmod>
+        <lastmod>2013-04-06T23:24:58+08:00</lastmod>
     </url>
     <url>
         <loc>
             http://yangpengg.github.com/blog/2012/12/29/wand-operator-to-calculate-similarity/
         </loc>
-        <lastmod>2013-01-24T16:54:38+08:00</lastmod>
+        <lastmod>2013-04-06T23:24:58+08:00</lastmod>
     </url>
     <url>
         <loc>http://yangpengg.github.com/blog/2013/01/13/life-is-short/</loc>
-        <lastmod>2013-01-13T01:06:56+08:00</lastmod>
+        <lastmod>2013-04-06T23:24:58+08:00</lastmod>
+    </url>
+    <url>
+        <loc>http://yangpengg.github.com/blog/2013/05/25/poisson-distribution/</loc>
+        <lastmod>2013-05-26T01:24:55+08:00</lastmod>
     </url>
     <url>
         <loc>http://yangpengg.github.com/blog/archives/</loc>
-        <lastmod>2013-01-24T16:54:38+08:00</lastmod>
+        <lastmod>2013-05-26T01:24:55+08:00</lastmod>
     </url>
     <url>
         <loc>http://yangpengg.github.com/</loc>
-        <lastmod>2013-01-24T16:54:38+08:00</lastmod>
+        <lastmod>2013-05-26T01:24:55+08:00</lastmod>
     </url>
 </urlset>

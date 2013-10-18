@@ -4,7 +4,7 @@
   <title><![CDATA[yangpeng's Blog]]></title>
   <link href="http://yangpengg.github.com/atom.xml" rel="self"/>
   <link href="http://yangpengg.github.com/"/>
-  <updated>2013-10-14T00:11:05+08:00</updated>
+  <updated>2013-10-18T22:06:02+08:00</updated>
   <id>http://yangpengg.github.com/</id>
   <author>
     <name><![CDATA[yp]]></name>
@@ -18,7 +18,7 @@
     <link href="http://yangpengg.github.com/blog/2013/10/13/connect-to-lego-ev3-under-mac-os-x-with-bluetooth/"/>
     <updated>2013-10-13T20:29:00+08:00</updated>
     <id>http://yangpengg.github.com/blog/2013/10/13/connect-to-lego-ev3-under-mac-os-x-with-bluetooth</id>
-    <content type="html"><![CDATA[<p>最近买了一套 LEGO Mindstorms EV3 45544，本来买的时候想照着<a href="http://www.tiltedtwister.com/tiltedtwister2.html">Tilted Twister</a>做一个解魔方的机器人，没想到买的机器人版本太新，不只build instruction不能照搬，因为<a href="http://bricxcc.sourceforge.net/nbc/">NXC</a>还没有发布支持EV3的版本，连代码也用不了。</p>
+    <content type="html"><![CDATA[<p>最近买了一套 LEGO Mindstorms EV3 45544，本来买的时候想照着<a href="http://www.tiltedtwister.com/tiltedtwister2.html">Tilted Twister</a>做一个解魔方的机器人，没想到买的机器人版本太新，不只building instruction不能照搬，因为<a href="http://bricxcc.sourceforge.net/nbc/">NXC</a>还没有发布支持EV3的版本，连代码也用不了。</p>
 
 <h2 id="ev3nxt">EV3与NXT的不同</h2>
 
@@ -65,13 +65,13 @@
 
 <h3 id="robotc">robotc</h3>
 
-<p>一个商用的闭源的玩意儿，不多说了。</p>
+<p>一个商业的闭源玩意儿，不多说。</p>
 
 <h2 id="macev3">Mac下使用蓝牙连接EV3</h2>
 
 <p>好吧，言归正传，我想用EV3搭出一个可以解魔方的机器人。理论上这事可行，因为有人用NXT搭出来过，NXT都可以，更不要说EV3了。关于使用NXT搭解魔方机器人，有详细资料的至少有两个：一个是上边提到的<a href="http://www.tiltedtwister.com/tiltedtwister2.html">Tilted Twister</a>，另一个是<a href="http://www.mindcuber.com/">MindCuber</a>。</p>
 
-<p>既然理论上可行，那我现在面临的困难有两个：</p>
+<p>既然理论上可行，那现在面临的困难有两个：</p>
 
 <ul>
   <li>硬件部分，让我这种初玩LEGO，又没有任何艺术细胞的人拼出一个，实在是太难了；</li>
@@ -80,18 +80,18 @@
 
 <p>好吧，实际上要搭这样的一个机器人，不会遇到上述两个难题之外的问题。所以我好像什么也没有做…</p>
 
-<p>一个好的消息是，MindCuber正在出EV3的机器人版本，<a href="http://www.mindcuber.com/mindcub3r/mindcub3r.html">MindCub3r</a>。如果偷个懒，我可以等MindCub3r出来直接参考就可以了(MindCub3r会用31313搭，而我的EV3是45544，所以硬件部分只能参考，软件部分应该可以完全Copy)。不过作为一个程序员，至少要做点什么吧。</p>
+<p>一个好的消息是，MindCuber正在出EV3的机器人版本，<a href="http://www.mindcuber.com/mindcub3r/mindcub3r.html">MindCub3r</a>。如果偷个懒，我可以等MindCub3r出来直接参考(MindCub3r会用31313拼，而我的EV3是45544，所以硬件部分只能参考，软件部分应该可以完全Copy)。不过作为一个程序员，至少要做点什么吧。</p>
 
 <p>好吧，我决定试着先写出软件部分，毕竟这个对一个程序员而言，还是比较容易的。但是肯定不是用nxt-g这种玩具语言写。</p>
 
 <p>大体的思路是，扫描魔方的代码用nxt-g实现，这个应该很容易。EV3扫描完魔方之后，扫描的数据传到另一个地方，在另一个地方我可以用正常点的语言实现解魔方的算法，然后回传解法给EV3，EV3再按照解法执行。那么按照这个思路，实现方案有以下两个：</p>
 
 <ul>
-  <li>如我之前说过，EV3底层运行着一个标准的Linux，这样我可以编译好一个解魔方算法的c程序(如何让EV3运行native programs见<a href="http://robotnav.wordpress.com/ev3/">这里</a>)，让nxg-g扫描完之后，启动这个程序，然后取回解法执行。这个方案可以说perfect，因为虽然编译native程序比较费事，但是实际解魔方时，除了EV3，再加一个sd卡就是所有的硬件了。但是世界总是很不完美的，这个方案的问题在于：到目前为止，我都没有发现如何在nxt-g的程序里调用native程序。毕竟nxt-g程序是运行在LEGO VM里的，它不是shell，可以一条命令就调用外部程序。好吧，在这个接口没有找到之前，这个方案只好放弃了。</li>
-  <li>nxt-g扫描完之后，把数据传到一台pc，我可以直接在pc上写算法，然后回传解法。EV3与外界的无线通讯方式有两种：wifi和bluetooth。好吧，nxt-g是没有wifi的通信接口的，所以没有的选了，只能用bluetooth了。谢天谢地，总算有个还能用。</li>
+  <li>如我之前说过，EV3底层运行着一个标准的Linux，这样我可以编译好一个解魔方算法的c程序(如何让EV3运行native programs见<a href="http://robotnav.wordpress.com/ev3/">这里</a>)，让nxg-g扫描完之后，启动这个程序，然后nxg-g取回解法执行。这个方案可以说perfect，虽然编译native程序比较费事，但是实际解魔方时，除了EV3，再加一个sd卡就是所有的硬件了。但是世界总是很不完美的，这个方案的问题在于：到目前为止，我还没有发现如何在nxt-g的程序里调用native程序。毕竟nxt-g程序是运行在LEGO VM里的，它不是shell，可以一条命令就调用外部程序。好吧，在这个接口没有找到之前，这个方案只好放弃了。</li>
+  <li>nxt-g扫描完魔方之后，把数据传到一台pc，我可以直接在pc上写算法，然后回传解法。EV3与外界的无线通讯方式有两种：wifi和bluetooth。好吧，nxt-g是没有wifi通信接口的，所以没有的选，只能用bluetooth了。谢天谢地，总算有个还能用。</li>
 </ul>
 
-<p>好吧，写到这里总算是跟题目有点关系了。</p>
+<p>写到这里总算是跟题目有点关系了。</p>
 
 <p>在Linux下，蓝牙的协议栈用的是bluez，编程的接口用的也是标准的socket编程。可以在<a href="http://lirobo.blogspot.com/2012/08/linux-nxt.html">这里</a>找到Linux下连接NXT的源码。本来问题在这里也就解决，但是…</p>
 
@@ -102,11 +102,11 @@
 
 <p>先解决第一个问题，这个问题要解决两个方面，(1)找到Mac下蓝牙的编程接口，(2)编译一个命令行objc程序。</p>
 
-<p>关于第一个问题，Apple实现了自己蓝牙的协议栈，主要的参考文档包括，<a href="https://developer.apple.com/library/mac/documentation/devicedrivers/Conceptual/Bluetooth/BT_Intro/BT_Intro.html">Introduction to Bluetooth Device Access Guide</a>, <a href="https://developer.apple.com/library/mac/documentation/DeviceDrivers/Reference/IOBluetooth/_index.html">Bluetooth Framework Reference</a>。这个文档很坑的提到，bluetooth同时提供了c和objc的接口，但是却没有在文档中写半个c接口的代码。好吧，只能用objc写了。</p>
+<p>第一个问题的第一方面，Apple实现了自己蓝牙的协议栈，主要的参考文档包括，<a href="https://developer.apple.com/library/mac/documentation/devicedrivers/Conceptual/Bluetooth/BT_Intro/BT_Intro.html">Introduction to Bluetooth Device Access Guide</a>, <a href="https://developer.apple.com/library/mac/documentation/DeviceDrivers/Reference/IOBluetooth/_index.html">Bluetooth Framework Reference</a>。这个文档很坑的提到，bluetooth同时提供c和objc的接口，但是却没有在文档中写半个c接口的代码。好吧，只能用objc写了。</p>
 
-<p>关于第二个问题，实际上是由于没有找到c接口的引起的，因为用objc接口实现通信逻辑，就只能用delegate模型，实现一个事件驱动的程序。</p>
+<p>关于第二方面，实际上是由于没有找到c接口的引起的，因为用objc接口实现通信逻辑，就只能用delegate模型，实现一个事件驱动的程序。</p>
 
-<p>好吧，废话差不多了，直接上代码(代码中涉及的协议在EV3的源码文件 <a href="https://github.com/mindboards/ev3sources/blob/master/lms2012/c_com/source/c_com.h">c_com.h</a>)：</p>
+<p>关于第二个问题，直接上代码(代码中涉及的协议在EV3的源码文件 <a href="https://github.com/mindboards/ev3sources/blob/master/lms2012/c_com/source/c_com.h">c_com.h</a>。说到这个h文件，协议的大部分内容是从注释中得到到，但是坑die的是，关于mailbox的注释有一处是错的，直接导致在这里卡了很长时间，不过还好最后搞定了。)：</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
@@ -221,6 +221,53 @@
 <span class="line-number">111</span>
 <span class="line-number">112</span>
 <span class="line-number">113</span>
+<span class="line-number">114</span>
+<span class="line-number">115</span>
+<span class="line-number">116</span>
+<span class="line-number">117</span>
+<span class="line-number">118</span>
+<span class="line-number">119</span>
+<span class="line-number">120</span>
+<span class="line-number">121</span>
+<span class="line-number">122</span>
+<span class="line-number">123</span>
+<span class="line-number">124</span>
+<span class="line-number">125</span>
+<span class="line-number">126</span>
+<span class="line-number">127</span>
+<span class="line-number">128</span>
+<span class="line-number">129</span>
+<span class="line-number">130</span>
+<span class="line-number">131</span>
+<span class="line-number">132</span>
+<span class="line-number">133</span>
+<span class="line-number">134</span>
+<span class="line-number">135</span>
+<span class="line-number">136</span>
+<span class="line-number">137</span>
+<span class="line-number">138</span>
+<span class="line-number">139</span>
+<span class="line-number">140</span>
+<span class="line-number">141</span>
+<span class="line-number">142</span>
+<span class="line-number">143</span>
+<span class="line-number">144</span>
+<span class="line-number">145</span>
+<span class="line-number">146</span>
+<span class="line-number">147</span>
+<span class="line-number">148</span>
+<span class="line-number">149</span>
+<span class="line-number">150</span>
+<span class="line-number">151</span>
+<span class="line-number">152</span>
+<span class="line-number">153</span>
+<span class="line-number">154</span>
+<span class="line-number">155</span>
+<span class="line-number">156</span>
+<span class="line-number">157</span>
+<span class="line-number">158</span>
+<span class="line-number">159</span>
+<span class="line-number">160</span>
 </pre></td><td class="code"><pre><code class=""><span class="line">//  ev3_mailbox.m
 </span><span class="line">
 </span><span class="line">#import &lt;Foundation/NSObject.h&gt;
@@ -233,6 +280,11 @@
 </span><span class="line">
 </span><span class="line">
 </span><span class="line">#define MAX_MESSAGE_SIZE 64
+</span><span class="line">
+</span><span class="line">int create_mailbox_send_data(const char *mailbox_name, const char *msg, unsigned char *out_buffer);
+</span><span class="line">int parse_mailbox_data(const unsigned char *data, int size, char *mailbox_name, char *msg);
+</span><span class="line">
+</span><span class="line">void hex_dump(const unsigned char *data, int size);
 </span><span class="line">
 </span><span class="line">
 </span><span class="line">@interface ConnectionHandler : NSObject
@@ -257,39 +309,13 @@
 </span><span class="line">    }
 </span><span class="line">    printf("connection complete\n");
 </span><span class="line">
-</span><span class="line">    char msg[] = "hello, ev3";
+</span><span class="line">    char *mailbox_name = "abc";
+</span><span class="line">    char *msg = "ping";
+</span><span class="line">    // char *msg = "hello, ev3";
+</span><span class="line">    unsigned char mailbox_cmd[MAX_MESSAGE_SIZE];
+</span><span class="line">    int size = create_mailbox_send_data(mailbox_name, msg, mailbox_cmd);
 </span><span class="line">
-</span><span class="line">    unsigned char mailbox_cmd[100];
-</span><span class="line">
-</span><span class="line">    // message counter
-</span><span class="line">    mailbox_cmd[2] = 0x12;
-</span><span class="line">    mailbox_cmd[3] = 0x34;
-</span><span class="line">
-</span><span class="line">    // system command, WRITEMAILBOX
-</span><span class="line">    mailbox_cmd[4] = 0x81;
-</span><span class="line">    mailbox_cmd[5] = 0x9e;
-</span><span class="line">
-</span><span class="line">    // mailbox name
-</span><span class="line">    mailbox_cmd[6] = 0x04;
-</span><span class="line">    mailbox_cmd[7] = 'a';
-</span><span class="line">    mailbox_cmd[8] = 'b';
-</span><span class="line">    mailbox_cmd[9] = 'c';
-</span><span class="line">    mailbox_cmd[10] = 0x00;
-</span><span class="line">
-</span><span class="line">    // payload
-</span><span class="line">    mailbox_cmd[11] = strlen(msg) + 1;
-</span><span class="line">    mailbox_cmd[12] = 0x00;
-</span><span class="line">    memcpy(&amp;mailbox_cmd[13], msg, strlen(msg) + 1);
-</span><span class="line">
-</span><span class="line">    int size = 13 + strlen(msg) + 1;
-</span><span class="line">
-</span><span class="line">    mailbox_cmd[0] = size - 2;
-</span><span class="line">    mailbox_cmd[1] = 0x00;
-</span><span class="line">
-</span><span class="line">    for(int i=0; i&lt;size; i++) {
-</span><span class="line">        printf("%02x", mailbox_cmd[i]);
-</span><span class="line">    }
-</span><span class="line">    printf("\n");
+</span><span class="line">    hex_dump(mailbox_cmd, size);
 </span><span class="line">
 </span><span class="line">    if([channel writeSync:mailbox_cmd length:size] != kIOReturnSuccess) {
 </span><span class="line">        printf("sendmsg failed\n");
@@ -298,17 +324,20 @@
 </span><span class="line">        return;
 </span><span class="line">    }
 </span><span class="line">
-</span><span class="line">    CFRunLoopStop(CFRunLoopGetCurrent());
+</span><span class="line">    // CFRunLoopStop(CFRunLoopGetCurrent());
 </span><span class="line">}
 </span><span class="line">
 </span><span class="line">- (void)rfcommChannelData:(IOBluetoothRFCOMMChannel*)channel data:(void *)dataPointer length:(size_t)dataLength
 </span><span class="line">{
 </span><span class="line">    printf("data received length: %zd\n", dataLength);
 </span><span class="line">
-</span><span class="line">    char *reply = dataPointer + 2;
-</span><span class="line">    int blevel = reply[3] + (reply[4] * 256);
+</span><span class="line">    hex_dump((unsigned char *)dataPointer, dataLength);
 </span><span class="line">
-</span><span class="line">    printf("received: %d\n", blevel);
+</span><span class="line">    char mailbox_name[MAX_MESSAGE_SIZE];
+</span><span class="line">    char msg[MAX_MESSAGE_SIZE];
+</span><span class="line">
+</span><span class="line">    parse_mailbox_data((unsigned char *)dataPointer, dataLength, mailbox_name, msg);
+</span><span class="line">    printf("mailbox name: %s\nmsg: %s\n", mailbox_name, msg);
 </span><span class="line">
 </span><span class="line">    [channel closeChannel];
 </span><span class="line">    CFRunLoopStop(CFRunLoopGetCurrent());
@@ -317,10 +346,11 @@
 </span><span class="line">@end
 </span><span class="line">
 </span><span class="line">
+</span><span class="line">
 </span><span class="line">int main( int argc, const char *argv[] )
 </span><span class="line">{
 </span><span class="line">    @autoreleasepool {
-</span><span class="line">        NSString *ev3_addr_str = @"00:00:00:00:00:00";
+</span><span class="line">        NSString *ev3_addr_str = @"xx:xx:xx:xx:xx:xx";
 </span><span class="line">
 </span><span class="line">        IOBluetoothDevice *ev3 = [IOBluetoothDevice deviceWithAddressString:ev3_addr_str];
 </span><span class="line">
@@ -333,14 +363,78 @@
 </span><span class="line">    }
 </span><span class="line">
 </span><span class="line">    return 0;
+</span><span class="line">}
+</span><span class="line">
+</span><span class="line">
+</span><span class="line">int create_mailbox_send_data(const char *mailbox_name, const char *msg, unsigned char *out_buffer)
+</span><span class="line">{
+</span><span class="line">    // message counter
+</span><span class="line">    out_buffer[2] = 0x12;
+</span><span class="line">    out_buffer[3] = 0x34;
+</span><span class="line">
+</span><span class="line">    // system command without reply, WRITEMAILBOX
+</span><span class="line">    out_buffer[4] = 0x81;
+</span><span class="line">    out_buffer[5] = 0x9e;
+</span><span class="line">
+</span><span class="line">    int cur_p = 6;
+</span><span class="line">
+</span><span class="line">    // mailbox name
+</span><span class="line">    int size = strlen(mailbox_name) + 1;
+</span><span class="line">    out_buffer[cur_p++] = size;
+</span><span class="line">    memcpy(&amp;out_buffer[cur_p], mailbox_name, size);
+</span><span class="line">    cur_p += size;
+</span><span class="line">
+</span><span class="line">    // payload
+</span><span class="line">    size = strlen(msg) + 1;
+</span><span class="line">    out_buffer[cur_p++] = size &amp; 0xff;
+</span><span class="line">    out_buffer[cur_p++] = (size &amp; 0xff00) &gt;&gt; 8;
+</span><span class="line">    memcpy(&amp;out_buffer[cur_p], msg, size);
+</span><span class="line">    cur_p += size;
+</span><span class="line">
+</span><span class="line">    // command size
+</span><span class="line">    out_buffer[0] = (cur_p - 2) &amp; 0xff;
+</span><span class="line">    out_buffer[1] = ((cur_p - 2) &amp; 0xff00) &gt;&gt; 8;
+</span><span class="line">
+</span><span class="line">    return cur_p;
+</span><span class="line">}
+</span><span class="line">
+</span><span class="line">
+</span><span class="line">int parse_mailbox_data(const unsigned char *data, int length, char *mailbox_name, char *msg)
+</span><span class="line">{
+</span><span class="line">    assert(data[0] + (data[1] &lt;&lt; 8) + 2 == length);
+</span><span class="line">    assert(data[4] == 0x81 &amp;&amp; data[5] == 0x9e);
+</span><span class="line">
+</span><span class="line">    int cur_p = 6;
+</span><span class="line">
+</span><span class="line">    int size = data[cur_p++];
+</span><span class="line">    memcpy(mailbox_name, &amp;data[cur_p], size);
+</span><span class="line">    cur_p += size;
+</span><span class="line">
+</span><span class="line">    size = data[cur_p] + (data[cur_p+1] &lt;&lt; 8);
+</span><span class="line">    cur_p += 2;
+</span><span class="line">    memcpy(msg, &amp;data[cur_p], size);
+</span><span class="line">    cur_p += size;
+</span><span class="line">
+</span><span class="line">    assert(cur_p == length);
+</span><span class="line">
+</span><span class="line">    return size;
+</span><span class="line">}
+</span><span class="line">
+</span><span class="line">
+</span><span class="line">void hex_dump(const unsigned char *data, int size)
+</span><span class="line">{
+</span><span class="line">    for(int i=0; i&lt;size; i++) {
+</span><span class="line">        printf("%02x", data[i]);
+</span><span class="line">    }
+</span><span class="line">    printf("\n");
 </span><span class="line">}</span></code></pre></td></tr></table></div></figure></notextile></div>
 
-<p>编译如下(编译之前把上边的 ev3_addr_str 改成EV3的蓝牙地址)：</p>
+<p>编译如下(编译之前把源码中的 ev3_addr_str 改成EV3的蓝牙地址)：</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 </pre></td><td class="code"><pre><code class=""><span class="line">clang -o ev3_mailbox ev3_mailbox.m -framework foundation -framework iobluetooth</span></code></pre></td></tr></table></div></figure></notextile></div>
 
-<p>打开LEGO Software写一个简单接收mailbox的程序：</p>
+<p>打开LEGO Software写一个简单的程序：</p>
 
 <p><img src="http://yangpengg.github.com/images/blogpng/mailbox.png" alt="Bluetooth Mailbox" /></p>
 
@@ -349,20 +443,12 @@
 <div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 </pre></td><td class="code"><pre><code class=""><span class="line">./ev3_mailbox</span></code></pre></td></tr></table></div></figure></notextile></div>
 
-<p>如果不出意外，应该可以听到一声大象叫，而且EV3的显示屏上应该会显示：</p>
+<p>如果不出意外，应该可以听到一声大象叫，而且EV3的显示屏上应该会显示：”ping”，然后在pc端会显示：”pong”。</p>
 
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">hello, ev3</span></code></pre></td></tr></table></div></figure></notextile></div>
+<p>“ping”是由Mac发送到EV3的，”pong”是EV3在收到”ping”之后发送回Mac的。</p>
 
-<p>这条消息就是由Mac发送到EV3的。</p>
+<p>现在软件的问题解决了，就差拼一个解魔方的机器人出来了。</p>
 
-<p>写到这里，好像完成了，Mac下也编译出来了程序，也可以正常的发送消息。但是如果注意一下，实际上现在只完成了一半，现在只是Mac向EV3发送了消息，还没有实现EV3向Mac发送。好吧，这两个真的是不一样的，而且到现在我只能实现Mac向EV3发消息，还没能成功的让EV3发消息给Mac.</p>
-
-<p>问题的根本在于，EV3的蓝牙协议把消息分为两种，(a)system command，(b)direct command。上边代码实现的是WRITEMAILBOX，是一种system command，有固定的格式，但是system command没有相应的READMAILBOX，如果要读消息，只能写direct command，但是对于EV3而言，direct command就是一小段程序，也就是LEGO VM可以直接执行的字节码。WTF，为了读个消息，还需要当人工编译器，而且，现在根本就没有找到相应的文档。</p>
-
-<p>OK，实际上，既然都已经有了源码，还需要什么文档呢。不过最后还是想说一句，lms2012的代码实现的真是相当的… 呵呵… 哈哈</p>
-
-<p>等实验成功了，再补上EV3向Mac发送消息的代码吧。</p>
 ]]></content>
   </entry>
   
